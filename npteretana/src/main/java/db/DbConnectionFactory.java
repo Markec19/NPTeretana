@@ -28,7 +28,8 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- *
+ * DbConnectionFactory uspostavlja konekciju sa bazom podataka
+ * 
  * @author Luka
  */
 public class DbConnectionFactory {
