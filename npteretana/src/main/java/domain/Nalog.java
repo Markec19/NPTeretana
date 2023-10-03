@@ -190,9 +190,9 @@ public class Nalog implements Serializable{
             return false;
         }
         final Nalog other = (Nalog) obj;
-        if (this.id != other.id) {
-            return false;
-        }
+//        if (this.id != other.id) {
+//            return false;
+//        }
         if (!Objects.equals(this.ime, other.ime)) {
             return false;
         }
@@ -210,7 +210,7 @@ public class Nalog implements Serializable{
      */
     @Override
     public String toString() {
-        return "Nalog{" + ", ime=" + ime + ", prezime=" + prezime + ", korisnickoIme=" + korisnickoIme + '}';
+        return "ime=" + ime + ", prezime=" + prezime + ", korisnicko ime=" + korisnickoIme;
     }   
     
     

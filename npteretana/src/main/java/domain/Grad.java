@@ -103,9 +103,9 @@ public class Grad implements Serializable {
             return false;
         }
         final Grad other = (Grad) obj;
-        if (this.id != other.id) {
-            return false;
-        }
+//        if (this.id != other.id) {
+//            return false;
+//        }
         return Objects.equals(this.naziv, other.naziv);
     }
 
