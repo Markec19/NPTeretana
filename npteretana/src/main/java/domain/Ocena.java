@@ -8,12 +8,27 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- *
+ * Klasa Ocena predstavlja  ocenu koju je korisnik dao teretani
+ * 
+ * Ocena ima nalog koji je dao ocenu, teretanu kojoj je ocena data i vrednost ocene od 1 do 5
+ * 
  * @author Luka
  */
 public class Ocena implements Serializable {
+
+    /**
+     * Nalog korisnika koji daje ocenu teretani
+     */
     private Nalog nalog;
+    
+    /**
+     * Teretana koja je ocenjena
+     */
     private Teretana teretana;
+    
+    /**
+     * Vrednost ocene od 1 do 5 kao integer
+     */
     private int vrednost;
 
     public Ocena() {
@@ -40,30 +55,70 @@ public class Ocena implements Serializable {
 //        this.id = id;
 //    }
 
+    /**
+     * Vraca nalog koji je ocenio teretanu
+     * 
+     * @return nalog
+     */
     public Nalog getNalog() {
         return nalog;
     }
 
+    /**
+     * Postavlja nalog koji je ocenio teretanu
+     * 
+     * @param nalog koji je ocenio teretanu
+     * @throws IllegalArgumentException ako je nalog null
+     */
     public void setNalog(Nalog nalog) {
+        if(nalog == null)
+            throw new IllegalArgumentException("Nalog ne moze biti null");
         this.nalog = nalog;
     }
 
+    /**
+     * Vraca teretanu koja je ocenjena
+     * 
+     * @return teretana
+     */
     public Teretana getTeretana() {
         return teretana;
     }
 
+    /**
+     * Postavlja teretanu koja je ocenjena
+     * 
+     * @param teretana koji je ocenjena
+     * @throws IllegalArgumentException ako je teretana null
+     */
     public void setTeretana(Teretana teretana_id) {
+        if(teretana_id == null)
+            throw new IllegalArgumentException("Teretana ne moze biti null");            
         this.teretana = teretana_id;
     }
 
+    /**
+     * Vraca vrednost ocene
+     * @return vrednost
+     */
     public int getVrednost() {
         return vrednost;
     }
 
+    /**
+     * Postavlja vrednost ocene
+     * @param vrednost vrednost ocene od 1 do 5
+     * @throws IllegalArgumentException ako vrednost nije izmedju 1 i 5
+     */
     public void setVrednost(int vrednost) {
+        if(vrednost < 1 || vrednost > 5)
+            throw new IllegalArgumentException("Vrednost mora biti izmedju 1 i 5");                
         this.vrednost = vrednost;
     }
 
+    /**
+     * Override metode hashCode klase Object
+     */
     @Override
     public int hashCode() {
         int hash = 7;
@@ -73,6 +128,9 @@ public class Ocena implements Serializable {
         return hash;
     }
 
+    /**
+     * Poredi dve instance ocena
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

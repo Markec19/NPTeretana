@@ -9,12 +9,27 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- *
+ * Klasa IndividualniTrening predstavlja individualni trening organizovan izmedju korisnika teretane i trenera u toj teretani
+ * 
+ * IndividualniTrening ima nalog koji zakazuje individualni trening, trenera koji drzi individualni trening i termin treninga
+ * 
  * @author Luka
  */
 public class IndividualniTrening implements Serializable{
+
+    /**
+     * Nalog koji zakazuje individualni trening
+     */
     private Nalog nalog;
+    
+    /**
+     * Trener koji drzi individualni trening
+     */
     private Trener trener;
+    
+    /**
+     * Termin treninga kao LocalDate
+     */
     private LocalDate termin;
 
     public IndividualniTrening() {
@@ -41,30 +56,72 @@ public class IndividualniTrening implements Serializable{
 //        this.id = id;
 //    }
 
+    /**
+     * Vraca nalog koji zakazuje individualni trening
+     * 
+     * @return nalog
+     */
     public Nalog getNalog() {
         return nalog;
     }
 
+    /**
+     * Postavlja nalog koji zakazuje individualni trening
+     * 
+     * @param nalog koji zakazuje individualni trening
+     * @throws IllegalArgumentException kada je nalog null
+     */
     public void setNalog(Nalog nalog) {
+        if(nalog == null)
+            throw new IllegalArgumentException("Nalog ne sme biti null");
         this.nalog = nalog;
     }
 
+    /**
+     * Trener koji drzi individualni trening
+     * 
+     * @return trener
+     */
     public Trener getTrener() {
         return trener;
     }
 
+    /**
+     * Postavlja trenera koji drzi individualni trening
+     * 
+     * @param trener koji drzi individualni trening
+     * @throws IllegalArgumentException kada je trener null
+     */
     public void setTrener(Trener trener) {
+        if(trener == null)
+            throw new IllegalArgumentException("Trener ne sme biti null");
         this.trener = trener;
     }
 
+    /**
+     * Vraca termin treninga
+     * 
+     * @return termin
+     */
     public LocalDate getTermin() {
         return termin;
     }
 
+    /**
+     * Postavlja termin treninga
+     * 
+     * @param termin treninga
+     * @throws IllegalArgumentException kada je termin null ili ako je u proslosti
+     */
     public void setTermin(LocalDate termin) {
+        if(termin == null || termin.isBefore(LocalDate.now()))
+            throw new IllegalArgumentException("Termin ne moze biti null i ne moze biti u proslosti");
         this.termin = termin;
     }
 
+    /**
+     * Override metode hashCode klase Object
+     */ 
     @Override
     public int hashCode() {
         int hash = 7;
@@ -74,6 +131,9 @@ public class IndividualniTrening implements Serializable{
         return hash;
     }
 
+    /**
+     * Poredi dve instance grada
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -96,7 +156,9 @@ public class IndividualniTrening implements Serializable{
     }
 
     
-
+    /**
+     * Override metode toString klase Object
+     */
     @Override
     public String toString() {
         return "IndividualniTrening{" + "nalog_id=" + nalog + ", trener_id=" + trener + ", termin=" + termin + '}';
