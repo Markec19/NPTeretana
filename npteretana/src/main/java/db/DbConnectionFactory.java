@@ -33,15 +33,34 @@ import java.util.Properties;
  * @author Luka
  */
 public class DbConnectionFactory {
+
+    /**
+     * Instanca klase Connection
+     */
     Connection connection;
+    
+    /**
+     * Instanca DbConnectionFactory
+     */
     private static DbConnectionFactory instance;
     
+    /**
+     * Vraca instancu DbConnectionFactory
+     * 
+     * @return instanca DbConnectionFactory
+     */
     public static DbConnectionFactory getInstance(){
         if(instance == null)
             instance = new DbConnectionFactory();
         return instance;
     }
     
+    /**
+     * Uspostavlja konekciju sa bazom podataka
+     * 
+     * @return connection
+     * @throws Exception 
+     */
     public Connection getConnection() throws Exception{
         if(connection == null || connection.isClosed()){
             Properties properties = new Properties();
@@ -59,7 +78,12 @@ public class DbConnectionFactory {
     
     
     
-    
+    /**
+     * Unosi novi nalog u bazu podataka
+     * 
+     * @param n nalog
+     * @throws Exception 
+     */
     public void dodajNalog(Nalog n) throws Exception {
         String query = "INSERT INTO nalog(ime, prezime, sifra_naloga, korisnicko_ime) VALUES (?,?,?,?)";
         System.out.println(query);
@@ -73,6 +97,12 @@ public class DbConnectionFactory {
         ps.close();
     }
     
+    /**
+     * Cuva izmene naloga u bazi podataka
+     * 
+     * @param n nalog
+     * @throws Exception 
+     */
     public void urediNalog(Nalog n) throws Exception {
         try {
             String sql = "UPDATE nalog SET "
@@ -86,13 +116,18 @@ public class DbConnectionFactory {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
             statement.close();
-            connection.close();
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new Exception("Update product DB error: \n" + ex.getMessage());
         }
     }
     
+    /**
+     * Vraca listu svih naloga iz baze podataka
+     * 
+     * @return lista svih naloga iz baze podataka
+     * @throws Exception 
+     */
     public List<Nalog> vratiSveNaloge() throws Exception {
         try {
             String query = "SELECT * FROM nalog";
@@ -125,6 +160,13 @@ public class DbConnectionFactory {
         }       
     }
     
+    /**
+     * Trazi nalog iz baze podataka prema id-u naloga
+     * 
+     * @param nalog
+     * @return nalog
+     * @throws Exception 
+     */
     public Nalog pronadjiNalog(Nalog nalog) throws Exception {
         
         try {
@@ -155,7 +197,12 @@ public class DbConnectionFactory {
     }
     
     
-    
+    /**
+     * Vraca listu svih gradova iz baze podataka
+     * 
+     * @return lista svih gradova iz baze podataka
+     * @throws Exception 
+     */
     public List<Grad> vratiSveGradove() throws Exception {
         String query = "SELECT * FROM grad";
         try {
@@ -181,7 +228,12 @@ public class DbConnectionFactory {
     }
     
     
-    
+    /**
+     * Unosi novu teretanu u bazu podataka
+     * 
+     * @param t teretana
+     * @throws Exception 
+     */
     public void dodajTeretanu(Teretana t) throws Exception {
         String query = "INSERT INTO teretana(naziv, adresa, grad_id, prosecna_ocena) VALUES (?,?,?,?)";
         Connection conn = DbConnectionFactory.getInstance().getConnection();
@@ -194,6 +246,12 @@ public class DbConnectionFactory {
         ps.close();
     }
     
+    /**
+     * Cuva izmenu teretane u bazi podataka
+     * 
+     * @param t teretana
+     * @throws Exception 
+     */
     public void urediTeretanu(Teretana t) throws Exception {
         try {
             String sql = "UPDATE teretana SET "
@@ -212,6 +270,12 @@ public class DbConnectionFactory {
         }
     }
     
+    /**
+     * Vraca listu svih teretana iz baze podataka
+     * 
+     * @return lista svih teretana iz baze podataka
+     * @throws Exception 
+     */
     public List<Teretana> vratiSveTeretane() throws Exception {
         try {
             String query = "SELECT * FROM teretana t INNER JOIN grad g ON g.id = t.grad_id";
@@ -247,6 +311,12 @@ public class DbConnectionFactory {
         } 
     }
     
+    /**
+     * Vraca listu svih teretana iz baze podataka koje su iz datog grada
+     * @param g grad
+     * @return lista svih teretana iz baze podataka koje su iz datog grada
+     * @throws Exception 
+     */
     public List<Teretana> vratiSveTeretane(Grad g) throws Exception {
         try {
             String query = "SELECT * FROM teretana WHERE grad_id =" + g.getId();
@@ -278,6 +348,13 @@ public class DbConnectionFactory {
         }                 
     }
     
+    /**
+     * Pronalazi teretanu iz baze podataka po id-u
+     * 
+     * @param teretana
+     * @return teretana
+     * @throws Exception 
+     */
     public Teretana vratiSveTeretane(Teretana teretana) throws Exception {        
         try {
             String query = "SELECT * FROM teretana t INNER JOIN grad g ON g.id=t.grad_id WHERE t.id=" + teretana.getId();
@@ -316,15 +393,21 @@ public class DbConnectionFactory {
     
     
     
-    public void dodajVrstuOpreme(VrstaOpreme vo) throws Exception {
-        String query = "INSERT INTO vrsta_opreme(naziv) VALUES (?)";
-        Connection conn = DbConnectionFactory.getInstance().getConnection();
-        PreparedStatement ps = conn.prepareStatement(query);
-        ps.setString(1, vo.getVrsta());
-        ps.executeUpdate();
-        ps.close();
-    }
+//    public void dodajVrstuOpreme(VrstaOpreme vo) throws Exception {
+//        String query = "INSERT INTO vrsta_opreme(naziv) VALUES (?)";
+//        Connection conn = DbConnectionFactory.getInstance().getConnection();
+//        PreparedStatement ps = conn.prepareStatement(query);
+//        ps.setString(1, vo.getVrsta());
+//        ps.executeUpdate();
+//        ps.close();
+//    }
     
+    /**
+     * Vraca listu svih vrsta opreme
+     * 
+     * @return lista svih vrste opreme
+     * @throws Exception 
+     */
     public List<VrstaOpreme> vratiSveVrsteOpreme() throws Exception {
         String query = "SELECT * FROM vrsta_opreme";
         try {
@@ -351,6 +434,12 @@ public class DbConnectionFactory {
     
     
     
+    /**
+     * Unosi novu opremu u bazu podataka
+     * 
+     * @param o oprema
+     * @throws Exception 
+     */
     public void dodajOpremu(Oprema o) throws Exception {
         String query = "INSERT INTO oprema(stanje, vrsta_opreme_id, teretana_id) VALUES (?,?,?)";
         Connection conn = DbConnectionFactory.getInstance().getConnection();
@@ -363,6 +452,12 @@ public class DbConnectionFactory {
         ps.close();
     }
     
+    /**
+     * Cuva izmenjenu opremu u bazi podataka
+     * 
+     * @param o oprema
+     * @throws Exception 
+     */
     public void urediOpremu(Oprema o) throws Exception {
         try {
             String query = "UPDATE oprema SET "
@@ -380,19 +475,25 @@ public class DbConnectionFactory {
         }
     }
     
-    public void izbrisiOpremu(Oprema o) throws Exception {
-        try {
-            String query = "DELETE FROM oprema WHERE id=" + o.getId();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
-            stat.executeUpdate(query);
-            stat.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println("Delete oprema error: \n" + ex.getMessage());
-        }
-    }
+//    public void izbrisiOpremu(Oprema o) throws Exception {
+//        try {
+//            String query = "DELETE FROM oprema WHERE id=" + o.getId();
+//            Connection conn = DbConnectionFactory.getInstance().getConnection();
+//            Statement stat = conn.createStatement();
+//            stat.executeUpdate(query);
+//            stat.close();
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            System.out.println("Delete oprema error: \n" + ex.getMessage());
+//        }
+//    }
     
+    /**
+     * Vraca listu svih oprema
+     * 
+     * @return lista svih oprema
+     * @throws Exception 
+     */
     public List<Oprema> vratiSveOpreme() throws Exception {
         try {
             String query = "SELECT * FROM oprema o "
@@ -437,6 +538,12 @@ public class DbConnectionFactory {
         }
     }
     
+    /**
+     * Vraca listu svih oprema u jednoj teretani
+     * 
+     * @param t teretana
+     * @return 
+     */
     public List<Oprema> vratiSveOpreme(Teretana t){
         try {
             String query = "SELECT * FROM oprema o INNER JOIN vrsta_opreme vo ON o.vrsta_opreme_id=vo.id WHERE teretana_id =" + t.getId();
@@ -469,6 +576,12 @@ public class DbConnectionFactory {
         } 
     }
     
+    /**
+     * Vraca listu svih oprema odredjene vrste
+     * 
+     * @param vo vrsta opreme
+     * @return 
+     */
     public List<Oprema> vratiSveOpreme(VrstaOpreme vo){
         try {
             String query = "SELECT * FROM oprema o INNER JOIN teretana t ON o.teretana_id=t.id "
@@ -511,6 +624,12 @@ public class DbConnectionFactory {
     
     
     
+    /**
+     * Unosi novu clanarinu u bazu podataka
+     * 
+     * @param c clanarina
+     * @throws Exception 
+     */
     public void dodajClanarinu(Clanarina c) throws Exception {
         String query = "INSERT INTO clanarina(cena, nalog_id, teretana_id, datumOd, datumDo) VALUES (?,?,?,?,?)";
         System.out.println(query);
@@ -525,6 +644,12 @@ public class DbConnectionFactory {
         ps.close();
     }
     
+    /**
+     * Uredjuje i update-uje clanarinu
+     * 
+     * @param c clanarina
+     * @throws Exception 
+     */
     public void urediClanarinu(Clanarina c) throws Exception {
         try {
             String sql = "UPDATE clanarina SET "
@@ -543,6 +668,12 @@ public class DbConnectionFactory {
         }
     }
     
+    /**
+     * Vraca listu svih clanarina iz baze podataka
+     * 
+     * @return lista svih clanarina iz baze podataka
+     * @throws Exception 
+     */
     public List<Clanarina> vratiSveClanarine() throws Exception {
         try {
             String query = "SELECT * FROM clanarina c INNER JOIN nalog n ON n.id = c.nalog_id "
@@ -594,6 +725,13 @@ public class DbConnectionFactory {
         }    
     } 
     
+    /**
+     * Vraca listu svih clanarina jednog naloga
+     * 
+     * @param n nalog
+     * @return lista svih clanarina jednog naloga
+     * @throws Exception 
+     */
     public List<Clanarina> vratiSveClanarine(Nalog n) throws Exception {
         try {
             String query = "SELECT * FROM clanarina c INNER JOIN nalog n ON n.id = c.nalog_id "
@@ -641,6 +779,13 @@ public class DbConnectionFactory {
         }   
     }
     
+    /**
+     * Nalazi clanarinu po id-u
+     * 
+     * @param clanarina
+     * @return clanarina
+     * @throws Exception 
+     */
     public Clanarina vratiSveClanarine(Clanarina clanarina) throws Exception {
         try {
             String query = "SELECT * FROM clanarina c INNER JOIN nalog n ON n.id = c.nalog_id "
@@ -695,7 +840,12 @@ public class DbConnectionFactory {
     
     
     
-    
+    /**
+     * Unosi novu ocenu u bazu podataka
+     * 
+     * @param o ocena
+     * @throws Exception 
+     */
     public void dodajOcenu(Ocena o) throws Exception {
         String query = "INSERT INTO ocena(nalog_id, teretana_id, vrednost) VALUES (?,?,?)";
         Connection conn = DbConnectionFactory.getInstance().getConnection();
@@ -705,9 +855,14 @@ public class DbConnectionFactory {
         ps.setInt(3, o.getVrednost());
         ps.executeUpdate();
         ps.close();
-        conn.close();
     }
     
+    /**
+     * Uredjuje i update-uje ocenu u bazi podataka
+     * 
+     * @param o ocena
+     * @throws Exception 
+     */
     public void urediOcenu(Ocena o) throws Exception {
         try {
             String sql = "UPDATE ocena SET "
@@ -719,13 +874,18 @@ public class DbConnectionFactory {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
             statement.close();
-            connection.close();
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new Exception("Update product DB error: \n" + ex.getMessage());
         }
     }
     
+    /**
+     * Vraca listu svih ocena
+     * 
+     * @return lista svih ocena
+     * @throws Exception 
+     */
     public List<Ocena> vratiSveOcene() throws Exception {
         try {
             String query = "SELECT * FROM ocena o INNER JOIN nalog n ON n.id = o.nalog_id "
@@ -776,6 +936,13 @@ public class DbConnectionFactory {
         }   
     }
     
+    /**
+     * Vraca listu svih ocena koje je uneo dati nalog
+     * 
+     * @param n nalog
+     * @return lista svih ocena koje je uneo dati nalog
+     * @throws Exception 
+     */
     public List<Ocena> vratiSveOcene(Nalog n) throws Exception {
         try {
             String query = "SELECT * FROM ocena o INNER JOIN nalog n ON n.id = o.nalog_id "
@@ -823,7 +990,12 @@ public class DbConnectionFactory {
     
     
     
-    
+    /**
+     * Unosi novog trenera u bazu podataka
+     * 
+     * @param t trener
+     * @throws Exception 
+     */
     public void dodajTrenera(Trener t) throws Exception {
         String query = "INSERT INTO trener(ime, prezime, teretana_id) VALUES (?,?,?)";
         Connection conn = DbConnectionFactory.getInstance().getConnection();
@@ -835,6 +1007,12 @@ public class DbConnectionFactory {
         ps.close();
     }
     
+    /**
+     * Uredjuje i update-uje trenera u bazi podataka
+     * 
+     * @param t trener
+     * @throws Exception 
+     */
     public void urediTrenera(Trener t) throws Exception {
         try {
             String sql = "UPDATE trener SET "
@@ -853,6 +1031,12 @@ public class DbConnectionFactory {
         }
     }
     
+    /**
+     * Vraca listu svih trenera
+     * 
+     * @return lista svih trenera
+     * @throws Exception 
+     */
     public List<Trener> vratiSveTrenere() throws Exception {
         try {
             String query = "SELECT * FROM trener t INNER JOIN teretana tr ON tr.id = t.teretana_id "
@@ -893,6 +1077,13 @@ public class DbConnectionFactory {
         } 
     }
     
+    /**
+     * Vraca listu svih trenera u datoj teretani
+     * 
+     * @param tr teretana
+     * @return lista svih trenera u datoj teretani
+     * @throws Exception 
+     */
     public List<Trener> vratiSveTrenere(Teretana tr) throws Exception {
         try {
             String query = "SELECT * FROM trener WHERE teretana_id =" + tr.getId();
@@ -920,6 +1111,15 @@ public class DbConnectionFactory {
         } 
     }
     
+    
+    
+    
+    /**
+     * Unosi novi individualni trening u bazu podataka
+     * 
+     * @param it individualni trening
+     * @throws Exception 
+     */
     public void dodajIndividualniTrening(IndividualniTrening it) throws Exception {
         String query = "INSERT INTO individualni_trening(nalog_id, trener_id, termin) VALUES (?,?,?)";
         Connection conn = DbConnectionFactory.getInstance().getConnection();
@@ -931,23 +1131,29 @@ public class DbConnectionFactory {
         ps.close();
     }
     
-    public void urediIndividualniTrening(IndividualniTrening it) throws Exception {
-        try {
-            String sql = "UPDATE individualni_trening SET "
-                    + "termin=" + it.getTermin()+ " "
-                    + "WHERE nalog_id=" + it.getNalog().getId()
-                    + " AND trener_id=" + it.getTrener().getId();
-            System.out.println(sql);
-            Connection connection = DbConnectionFactory.getInstance().getConnection();
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
-            statement.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new Exception("Update individualni_trening DB error: \n" + ex.getMessage());
-        }
-    }
+//    public void urediIndividualniTrening(IndividualniTrening it) throws Exception {
+//        try {
+//            String sql = "UPDATE individualni_trening SET "
+//                    + "termin=" + it.getTermin()+ " "
+//                    + "WHERE nalog_id=" + it.getNalog().getId()
+//                    + " AND trener_id=" + it.getTrener().getId();
+//            System.out.println(sql);
+//            Connection connection = DbConnectionFactory.getInstance().getConnection();
+//            Statement statement = connection.createStatement();
+//            statement.executeUpdate(sql);
+//            statement.close();
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            throw new Exception("Update individualni_trening DB error: \n" + ex.getMessage());
+//        }
+//    }
     
+    /**
+     * Vraca listu svih individualnih treninga
+     * 
+     * @return lista svih individualnih treninga
+     * @throws Exception 
+     */
     public List<IndividualniTrening> vratiSveIndividualneTreninge() throws Exception {
         try {
             String query = "SELECT * FROM individualni_trening it INNER JOIN nalog n ON n.id = it.nalog_id "
@@ -1006,6 +1212,11 @@ public class DbConnectionFactory {
         } 
     }
     
+    /**
+     * Vraca listu svih individualnih treninga jednog trenera
+     * @param t trener
+     * @return listu svih individualnih treninga jednog trenera
+     */
     public List<IndividualniTrening> vratiSveIndividualneTreninge(Trener t) {
         try {
             String query = "SELECT * FROM individualni_trening it "
@@ -1041,6 +1252,11 @@ public class DbConnectionFactory {
         } 
     }
     
+    /**
+     * Vraca listu svih individualnih treninga koje je zakazao jedan nalog
+     * @param n nalog
+     * @return lista svih individualnih treninga koje je zakazao jedan nalog
+     */
     public List<IndividualniTrening> vratiSveIndividualneTreninge(Nalog n) {
         try {
             String query = "SELECT * FROM individualni_trening it "
@@ -1089,6 +1305,12 @@ public class DbConnectionFactory {
         } 
     }
 
+    /**
+     * Popunjava listu trenera i opreme u teretani pri vrsenju sistemskih operacija vezanih za ocene
+     * 
+     * @param list lista ocena
+     * @throws Exception 
+     */
     private void popuniTeretaneOcena(List<Ocena> list) throws Exception {       
         for (int i = 0; i < list.size(); i++) {
             list.get(i).getTeretana().setOpreme(Controller.getInstance().nadjiOpreme(list.get(i).getTeretana()));
@@ -1096,6 +1318,12 @@ public class DbConnectionFactory {
         }
     }
     
+    /**
+     * Popunjava listu trenera i opreme u teretani pri vrsenju sistemskih operacija vezanih za clanarine
+     * 
+     * @param list lista clanarina
+     * @throws Exception 
+     */
     private void popuniTeretaneClanarina(List<Clanarina> list) throws Exception{
         for (int i = 0; i < list.size(); i++) {
             list.get(i).getTeretana().setOpreme(Controller.getInstance().nadjiOpreme(list.get(i).getTeretana()));
@@ -1103,6 +1331,12 @@ public class DbConnectionFactory {
         }
     }
     
+    /**
+     * Popunjava listu trenera i opreme u teretani pri vrsenju sistemskih operacija vezanih za teretane
+     * 
+     * @param list lista teretana
+     * @throws Exception 
+     */
     private void popuniTeretaneTeretana(List<Teretana> list) throws Exception{
         for (int i = 0; i < list.size(); i++) {
             list.get(i).setOpreme(Controller.getInstance().nadjiOpreme(list.get(i)));
