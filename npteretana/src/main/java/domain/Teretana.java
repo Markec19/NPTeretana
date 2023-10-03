@@ -175,8 +175,8 @@ public class Teretana implements Serializable {
      * @throws IllegalArgumentException kada je prosecna ocena null ili manja od 1
      */
     public void setProsecnaOcena(BigDecimal prosecna_ocena) {
-        if(prosecna_ocena == null || prosecna_ocena.intValue() < 1)
-            throw new IllegalArgumentException("Prosecna ocena ne sme biti null i mora biti jednaka ili veca od 1");
+        if(prosecna_ocena != null && prosecna_ocena.intValue() < 1)
+            throw new IllegalArgumentException("Prosecna ocena mora biti jednaka ili veca od 1");
         this.prosecnaOcena = prosecna_ocena;
     }
     
@@ -196,7 +196,7 @@ public class Teretana implements Serializable {
      * @throws IllegalArgumentException kada je grad null
      */
     public void setGrad(Grad gradId) {
-        if(grad == null)
+        if(gradId == null)
             throw new IllegalArgumentException("Grad ne sme biti null");
         this.grad = gradId;
     }
