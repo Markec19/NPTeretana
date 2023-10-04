@@ -267,18 +267,18 @@ public class Teretana implements Serializable {
             return false;
         }
         final Teretana other = (Teretana) obj;
-        if (this.id != other.id) {
-            return false;
-        }
+//        if (this.id != other.id) {
+//            return false;
+//        }
         if (!Objects.equals(this.naziv, other.naziv)) {
             return false;
         }
         if (!Objects.equals(this.adresa, other.adresa)) {
             return false;
         }
-        if (!Objects.equals(this.prosecnaOcena, other.prosecnaOcena)) {
-            return false;
-        }
+//        if (!Objects.equals(this.prosecnaOcena, other.prosecnaOcena)) {
+//            return false;
+//        }
         return Objects.equals(this.grad, other.grad);
     }    
     
