@@ -224,12 +224,12 @@ public class Clanarina implements Serializable{
             return false;
         }
         final Clanarina other = (Clanarina) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        if (!Objects.equals(this.cena, other.cena)) {
-            return false;
-        }
+//        if (this.id != other.id) {
+//            return false;
+//        }
+//        if (!Objects.equals(this.cena, other.cena)) {
+//            return false;
+//        }
         if (!Objects.equals(this.nalog, other.nalog)) {
             return false;
         }
