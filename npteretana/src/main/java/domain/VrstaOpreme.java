@@ -103,9 +103,9 @@ public class VrstaOpreme implements Serializable{
             return false;
         }
         final VrstaOpreme other = (VrstaOpreme) obj;
-        if (this.id != other.id) {
-            return false;
-        }
+//        if (this.id != other.id) {
+//            return false;
+//        }
         return Objects.equals(this.vrsta, other.vrsta);
     }
 
