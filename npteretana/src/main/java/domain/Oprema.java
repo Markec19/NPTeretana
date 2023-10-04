@@ -174,9 +174,9 @@ public class Oprema implements Serializable{
             return false;
         }
         final Oprema other = (Oprema) obj;
-        if (this.id != other.id) {
-            return false;
-        }
+//        if (this.id != other.id) {
+//            return false;
+//        }
 //        if (this.kolicina != other.kolicina) {
 //            return false;
 //        }
@@ -194,7 +194,7 @@ public class Oprema implements Serializable{
      */
     @Override
     public String toString() {
-        return "Oprema{" + ", stanje=" + stanjeOpreme + ", vrsta=" + vrsta + ", teretana=" + teretana.getNaziv() + '}';
+        return "stanje=" + stanjeOpreme + ", vrsta=" + vrsta + ", teretana=" + teretana.getNaziv();
     }
     
     
