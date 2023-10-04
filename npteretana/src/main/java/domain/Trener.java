@@ -161,9 +161,9 @@ public class Trener implements Serializable{
             return false;
         }
         final Trener other = (Trener) obj;
-        if (this.id != other.id) {
-            return false;
-        }
+//        if (this.id != other.id) {
+//            return false;
+//        }
         if (!Objects.equals(this.ime, other.ime)) {
             return false;
         }

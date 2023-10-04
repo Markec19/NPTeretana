@@ -161,7 +161,7 @@ public class IndividualniTrening implements Serializable{
      */
     @Override
     public String toString() {
-        return "IndividualniTrening{" + "nalog_id=" + nalog + ", trener_id=" + trener + ", termin=" + termin + '}';
+        return "nalog=" + nalog.getKorisnickoIme() + ", trener=" + trener + ", termin=" + termin;
     }  
     
     
