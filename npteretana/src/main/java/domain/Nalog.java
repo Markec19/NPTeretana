@@ -16,6 +16,7 @@ import java.util.Objects;
  */
 public class Nalog implements Serializable{
 
+	
     /**
      * Id naloga kao long
      */
