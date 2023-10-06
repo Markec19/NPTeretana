@@ -42,9 +42,14 @@ public class Nalog implements Serializable{
     private String sifra;
 
     public Nalog() {
-    }
+    }       
 
-    public Nalog(long id, String ime, String prezime, String korisnickoIme, String sifra) {
+    public Nalog(String korisnickoIme, String sifra) {
+		this.korisnickoIme = korisnickoIme;
+		this.sifra = sifra;
+	}
+
+	public Nalog(long id, String ime, String prezime, String korisnickoIme, String sifra) {
         this.id = id;
         this.ime = ime;
         this.prezime = prezime;

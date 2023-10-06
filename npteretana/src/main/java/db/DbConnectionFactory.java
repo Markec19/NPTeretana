@@ -70,10 +70,22 @@ public class DbConnectionFactory {
             String password = properties.getProperty("password");
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, username, password);
-            System.out.println("Connection is successful");
+            System.out.println("Connection is successful");            
             connection.setAutoCommit(false);
         }
         return connection;
+    }
+    
+    public Connection getConn() {
+    	return connection;
+    }
+    
+    public void closeConnection() throws Exception {
+    	try {
+			connection.close();
+		} catch (SQLException e) {
+			throw new Exception("Nije moguce zatvoriti konekciju");
+		}
     }
     
     
@@ -86,14 +98,24 @@ public class DbConnectionFactory {
      */
     public void dodajNalog(Nalog n) throws Exception {
         String query = "INSERT INTO nalog(ime, prezime, sifra_naloga, korisnicko_ime) VALUES (?,?,?,?)";
-        System.out.println(query);
+        System.out.println(query);        
         Connection conn = DbConnectionFactory.getInstance().getConnection();
-        PreparedStatement ps = conn.prepareStatement(query);
+        PreparedStatement ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);        
+        
+        //PreparedStatement ps = connection.prepareStatement(query);
         ps.setString(1, n.getIme());
         ps.setString(2, n.getPrezime());        
         ps.setString(3, n.getSifra());
         ps.setString(4, n.getKorisnickoIme());
         ps.executeUpdate();
+        
+        ResultSet rs = ps.getGeneratedKeys();
+        int generatedKey = 0;
+        if (rs.next()) {
+            generatedKey = rs.getInt(1);
+        }
+        n.setId(generatedKey);
+        
         ps.close();
     }
     
@@ -133,8 +155,10 @@ public class DbConnectionFactory {
             String query = "SELECT * FROM nalog";
             
             List<Nalog> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            //Connection conn = DbConnectionFactory.getInstance().getConnection();
+            //Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 Nalog n = new Nalog();
@@ -148,11 +172,11 @@ public class DbConnectionFactory {
             }            
             rs.close();
             stat.close();            
-            conn.close();
+            //conn.close();
             
             System.out.println("ResultSet zatvoren: " + rs.isClosed());
             System.out.println("Statement zatvoren: " + stat.isClosed());
-            System.out.println("Konekcija zatvorena: " + conn.isClosed());
+            //System.out.println("Konekcija zatvorena: " + conn.isClosed());
             return list;
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -167,34 +191,34 @@ public class DbConnectionFactory {
      * @return nalog
      * @throws Exception 
      */
-    public Nalog pronadjiNalog(Nalog nalog) throws Exception {
-        
-        try {
-            String query = "SELECT * FROM nalog WHERE id=" + nalog.getId();
-            
-            List<Nalog> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
-            ResultSet rs = stat.executeQuery(query);
-            while(rs.next()){
-                Nalog n = new Nalog();
-                n.setId(rs.getLong("id"));
-                n.setIme(rs.getString("ime"));
-                n.setPrezime(rs.getString("prezime"));
-                n.setKorisnickoIme(rs.getString("korisnicko_ime"));
-                n.setSifra(rs.getString("sifra_naloga"));
-                
-                list.add(n);
-            }            
-            rs.close();
-            stat.close();
-            conn.close();
-            return list.get(0);
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }
-    }
+//    public Nalog pronadjiNalog(Nalog nalog) throws Exception {
+//        
+//        try {
+//            String query = "SELECT * FROM nalog WHERE id=" + nalog.getId();
+//            
+//            List<Nalog> list = new ArrayList<>();
+//            //Connection conn = DbConnectionFactory.getInstance().getConnection();
+//            Statement stat = connection.createStatement();
+//            ResultSet rs = stat.executeQuery(query);
+//            while(rs.next()){
+//                Nalog n = new Nalog();
+//                n.setId(rs.getLong("id"));
+//                n.setIme(rs.getString("ime"));
+//                n.setPrezime(rs.getString("prezime"));
+//                n.setKorisnickoIme(rs.getString("korisnicko_ime"));
+//                n.setSifra(rs.getString("sifra_naloga"));
+//                
+//                list.add(n);
+//            }            
+//            rs.close();
+//            stat.close();
+//            //conn.close();
+//            return list.get(0);
+//        } catch (Exception ex) {
+//            System.out.println(ex.getMessage());
+//            return null;
+//        }
+//    }
     
     
     /**
@@ -209,6 +233,8 @@ public class DbConnectionFactory {
             List<Grad> list = new ArrayList<>();
             Connection conn = DbConnectionFactory.getInstance().getConnection();
             Statement stat = conn.createStatement();
+            
+            //Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 Grad g = new Grad();
@@ -237,12 +263,22 @@ public class DbConnectionFactory {
     public void dodajTeretanu(Teretana t) throws Exception {
         String query = "INSERT INTO teretana(naziv, adresa, grad_id, prosecna_ocena) VALUES (?,?,?,?)";
         Connection conn = DbConnectionFactory.getInstance().getConnection();
-        PreparedStatement ps = conn.prepareStatement(query);
+        PreparedStatement ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        
+        //PreparedStatement ps = connection.prepareStatement(query);
         ps.setString(1, t.getNaziv());
         ps.setString(2, t.getAdresa());
         ps.setLong(3, t.getGrad().getId());
         ps.setBigDecimal(4, t.getProsecnaOcena());
         ps.executeUpdate();
+        
+        ResultSet rs = ps.getGeneratedKeys();
+        int generatedKey = 0;
+        if (rs.next()) {
+            generatedKey = rs.getInt(1);
+        }
+        t.setId(generatedKey);
+        
         ps.close();
     }
     
@@ -252,23 +288,23 @@ public class DbConnectionFactory {
      * @param t teretana
      * @throws Exception 
      */
-    public void urediTeretanu(Teretana t) throws Exception {
-        try {
-            String sql = "UPDATE teretana SET "
-                    + "naziv='" + t.getNaziv()+ "', "
-                    + "adresa='" + t.getAdresa()+ "', "
-                    + "grad_id='" + t.getGrad().getId()+ "', "
-                    + "WHERE id=" + t.getId();
-            System.out.println(sql);
-            Connection connection = DbConnectionFactory.getInstance().getConnection();
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
-            statement.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw new Exception("Update product DB error: \n" + ex.getMessage());
-        }
-    }
+//    public void urediTeretanu(Teretana t) throws Exception {
+//        try {
+//            String sql = "UPDATE teretana SET "
+//                    + "naziv='" + t.getNaziv()+ "', "
+//                    + "adresa='" + t.getAdresa()+ "', "
+//                    + "grad_id='" + t.getGrad().getId()+ "', "
+//                    + "WHERE id=" + t.getId();
+//            System.out.println(sql);
+//            //Connection connection = DbConnectionFactory.getInstance().getConnection();
+//            Statement statement = connection.createStatement();
+//            statement.executeUpdate(sql);
+//            statement.close();
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            throw new Exception("Update product DB error: \n" + ex.getMessage());
+//        }
+//    }
     
     /**
      * Vraca listu svih teretana iz baze podataka
@@ -283,6 +319,8 @@ public class DbConnectionFactory {
             List<Teretana> list = new ArrayList<>();
             Connection conn = DbConnectionFactory.getInstance().getConnection();
             Statement stat = conn.createStatement();
+            
+            //Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 Teretana t = new Teretana();
@@ -322,8 +360,8 @@ public class DbConnectionFactory {
             String query = "SELECT * FROM teretana WHERE grad_id =" + g.getId();
             
             List<Teretana> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 Teretana t = new Teretana();
@@ -360,8 +398,8 @@ public class DbConnectionFactory {
             String query = "SELECT * FROM teretana t INNER JOIN grad g ON g.id=t.grad_id WHERE t.id=" + teretana.getId();
             
             List<Teretana> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 Teretana t = new Teretana();
@@ -412,8 +450,8 @@ public class DbConnectionFactory {
         String query = "SELECT * FROM vrsta_opreme";
         try {
             List<VrstaOpreme> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 VrstaOpreme vo = new VrstaOpreme();
@@ -442,13 +480,21 @@ public class DbConnectionFactory {
      */
     public void dodajOpremu(Oprema o) throws Exception {
         String query = "INSERT INTO oprema(stanje, vrsta_opreme_id, teretana_id) VALUES (?,?,?)";
-        Connection conn = DbConnectionFactory.getInstance().getConnection();
-        PreparedStatement ps = conn.prepareStatement(query);
+        Connection connection = DbConnectionFactory.getInstance().getConnection();
+        PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         //ps.setInt(1, o.getKolicina());
         ps.setString(1, o.getStanjeOpreme());
         ps.setLong(2, o.getVrsta().getId());
         ps.setLong(3, o.getTeretana().getId());
         ps.executeUpdate();
+        
+        ResultSet rs = ps.getGeneratedKeys();
+        int generatedKey = 0;
+        if (rs.next()) {
+            generatedKey = rs.getInt(1);
+        }
+        o.setId(generatedKey);
+        
         ps.close();
     }
     
@@ -465,8 +511,8 @@ public class DbConnectionFactory {
                 + "stanje='"+ o.getStanjeOpreme() + "' "
                 + "WHERE id=" + o.getId();
             System.out.println(query);
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             stat.executeQuery(query);
             stat.close();
         } catch (Exception ex) {
@@ -502,8 +548,8 @@ public class DbConnectionFactory {
                     + "INNER JOIN grad g ON g.id=t.grad_id";
             System.out.println(query);
             List<Oprema> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 Oprema o = new Oprema();
@@ -549,8 +595,8 @@ public class DbConnectionFactory {
             String query = "SELECT * FROM oprema o INNER JOIN vrsta_opreme vo ON o.vrsta_opreme_id=vo.id WHERE teretana_id =" + t.getId();
             
             List<Oprema> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 Oprema o = new Oprema();
@@ -588,8 +634,8 @@ public class DbConnectionFactory {
                     + "INNER JOIN grad g ON g.id=t.grad_id WHERE vrsta_opreme_id =" + vo.getId();
             
             List<Oprema> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 Oprema o = new Oprema();
@@ -633,14 +679,22 @@ public class DbConnectionFactory {
     public void dodajClanarinu(Clanarina c) throws Exception {
         String query = "INSERT INTO clanarina(cena, nalog_id, teretana_id, datumOd, datumDo) VALUES (?,?,?,?,?)";
         System.out.println(query);
-        Connection conn = DbConnectionFactory.getInstance().getConnection();
-        PreparedStatement ps = conn.prepareStatement(query);
+        Connection connection = DbConnectionFactory.getInstance().getConnection();
+        PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         ps.setBigDecimal(1, c.getCena());
         ps.setLong(2, c.getNalog().getId());
         ps.setLong(3, c.getTeretana().getId());
         ps.setDate(4, Date.valueOf(c.getDatumOd()));
         ps.setDate(5, Date.valueOf(c.getDatumDo()));
         ps.executeUpdate();
+        
+        ResultSet rs = ps.getGeneratedKeys();
+        int generatedKey = 0;
+        if (rs.next()) {
+            generatedKey = rs.getInt(1);
+        }
+        c.setId(generatedKey);
+        
         ps.close();
     }
     
@@ -680,8 +734,8 @@ public class DbConnectionFactory {
                     + "INNER JOIN teretana t ON t.id = c.teretana_id INNER JOIN grad g ON g.id = t.grad_id";
             
             List<Clanarina> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 Clanarina c = new Clanarina();
@@ -738,8 +792,8 @@ public class DbConnectionFactory {
                     + "INNER JOIN teretana t ON t.id = c.teretana_id INNER JOIN grad g ON g.id = t.grad_id WHERE n.id = " + n.getId();
             
             List<Clanarina> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 Clanarina c = new Clanarina();
@@ -792,8 +846,8 @@ public class DbConnectionFactory {
                     + "INNER JOIN teretana t ON t.id = c.teretana_id INNER JOIN grad g ON g.id = t.grad_id WHERE c.id=" + clanarina.getId();
             
             List<Clanarina> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 Clanarina c = new Clanarina();
@@ -848,8 +902,8 @@ public class DbConnectionFactory {
      */
     public void dodajOcenu(Ocena o) throws Exception {
         String query = "INSERT INTO ocena(nalog_id, teretana_id, vrednost) VALUES (?,?,?)";
-        Connection conn = DbConnectionFactory.getInstance().getConnection();
-        PreparedStatement ps = conn.prepareStatement(query);
+        Connection connection = DbConnectionFactory.getInstance().getConnection();
+        PreparedStatement ps = connection.prepareStatement(query);
         ps.setLong(1, o.getNalog().getId());
         ps.setLong(2, o.getTeretana().getId());
         ps.setInt(3, o.getVrednost());
@@ -892,8 +946,8 @@ public class DbConnectionFactory {
                     + "INNER JOIN teretana t ON t.id = o.teretana_id INNER JOIN grad g ON g.id = t.grad_id";
             
             List<Ocena> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 Ocena o = new Ocena();
@@ -927,7 +981,7 @@ public class DbConnectionFactory {
             }            
             rs.close();
             stat.close();
-            conn.close();
+            //conn.close();
             
             return list;
         } catch (Exception ex) {
@@ -949,8 +1003,8 @@ public class DbConnectionFactory {
                     + "INNER JOIN teretana t ON t.id = o.teretana_id INNER JOIN grad g ON g.id = t.grad_id WHERE n.id=" + n.getId();
             
             List<Ocena> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 Ocena o = new Ocena();
@@ -977,7 +1031,7 @@ public class DbConnectionFactory {
             }            
             rs.close();
             stat.close();
-            conn.close();
+            //conn.close();
             
             popuniTeretaneOcena(list);
             
@@ -998,12 +1052,20 @@ public class DbConnectionFactory {
      */
     public void dodajTrenera(Trener t) throws Exception {
         String query = "INSERT INTO trener(ime, prezime, teretana_id) VALUES (?,?,?)";
-        Connection conn = DbConnectionFactory.getInstance().getConnection();
-        PreparedStatement ps = conn.prepareStatement(query);
+        Connection connection = DbConnectionFactory.getInstance().getConnection();
+        PreparedStatement ps = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, t.getIme());
         ps.setString(2, t.getPrezime());
         ps.setLong(3, t.getTeretana().getId());
         ps.executeUpdate();
+        
+        ResultSet rs = ps.getGeneratedKeys();
+        int generatedKey = 0;
+        if (rs.next()) {
+            generatedKey = rs.getInt(1);
+        }
+        t.setId(generatedKey);
+        
         ps.close();
     }
     
@@ -1043,8 +1105,8 @@ public class DbConnectionFactory {
                     + "INNER JOIN grad g ON g.id=tr.grad_id ";
             
             List<Trener> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 Trener t = new Trener();
@@ -1089,8 +1151,8 @@ public class DbConnectionFactory {
             String query = "SELECT * FROM trener WHERE teretana_id =" + tr.getId();
             
             List<Trener> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 Trener t = new Trener();
@@ -1122,8 +1184,8 @@ public class DbConnectionFactory {
      */
     public void dodajIndividualniTrening(IndividualniTrening it) throws Exception {
         String query = "INSERT INTO individualni_trening(nalog_id, trener_id, termin) VALUES (?,?,?)";
-        Connection conn = DbConnectionFactory.getInstance().getConnection();
-        PreparedStatement ps = conn.prepareStatement(query);
+        Connection connection = DbConnectionFactory.getInstance().getConnection();
+        PreparedStatement ps = connection.prepareStatement(query);
         ps.setLong(1, it.getNalog().getId());
         ps.setLong(2, it.getTrener().getId());
         ps.setDate(3, Date.valueOf(it.getTermin()));
@@ -1162,8 +1224,8 @@ public class DbConnectionFactory {
                     + "INNER JOIN grad g ON g.id = t.grad_id ";
             
             List<IndividualniTrening> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 IndividualniTrening it = new IndividualniTrening();
@@ -1223,8 +1285,8 @@ public class DbConnectionFactory {
                     + "INNER JOIN nalog n ON n.id = it.nalog_id WHERE it.trener_id=" + t.getId();
             
             List<IndividualniTrening> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 IndividualniTrening it = new IndividualniTrening();
@@ -1261,11 +1323,11 @@ public class DbConnectionFactory {
         try {
             String query = "SELECT * FROM individualni_trening it "
                     + "INNER JOIN trener tr ON tr.id = it.trener_id "
-                    + "INNER JOIN teretana t ON t.id = o.teretana_id INNER JOIN grad g ON g.id = t.grad_id WHERE it.nalog_id=" + n.getId();
+                    + "INNER JOIN teretana t ON t.id = tr.teretana_id INNER JOIN grad g ON g.id = t.grad_id WHERE it.nalog_id=" + n.getId();
             
             List<IndividualniTrening> list = new ArrayList<>();
-            Connection conn = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = conn.createStatement();
+            Connection connection = DbConnectionFactory.getInstance().getConnection();
+            Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
             while(rs.next()){
                 IndividualniTrening it = new IndividualniTrening();
@@ -1287,8 +1349,6 @@ public class DbConnectionFactory {
                 g.setNaziv(rs.getString("g.naziv_grada"));                
                 t.setGrad(g);
                 
-                t.setOpreme(Controller.getInstance().nadjiOpreme(t));
-                t.setTreneri(Controller.getInstance().nadjiTrenere(t));                
                 tr.setTeretana(t);
                 
                 it.setTrener(tr);
@@ -1297,6 +1357,8 @@ public class DbConnectionFactory {
             }            
             rs.close();
             stat.close();
+            
+            popuniTeretaneIndividualniTrening(list);
             
             return list;
         } catch (Exception ex) {
@@ -1341,6 +1403,14 @@ public class DbConnectionFactory {
         for (int i = 0; i < list.size(); i++) {
             list.get(i).setOpreme(Controller.getInstance().nadjiOpreme(list.get(i)));
             list.get(i).setTreneri(Controller.getInstance().nadjiTrenere(list.get(i)));
+        
+        }
+    }
+    
+    private void popuniTeretaneIndividualniTrening(List<IndividualniTrening> list) throws Exception{
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).getTrener().getTeretana().setOpreme(Controller.getInstance().nadjiOpreme(list.get(i).getTrener().getTeretana()));
+            list.get(i).getTrener().getTeretana().setTreneri(Controller.getInstance().nadjiTrenere(list.get(i).getTrener().getTeretana()));
         
         }
     }

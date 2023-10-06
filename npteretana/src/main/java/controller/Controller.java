@@ -35,6 +35,12 @@ public class Controller {
      * Instanca Controller 
      */
     private static Controller controller;
+    
+    /**
+     * Pokazatelj da li je instanca objekta sacuvana u bazu ili ne
+     * Pocetna vrednost je false
+     */
+    boolean sacuvan = false;
 
     private Controller() {
         this.dbCon = new DbConnectionFactory();
@@ -52,9 +58,11 @@ public class Controller {
         return controller;
     }
     
-    
-    
-    /**
+    public DbConnectionFactory getDbCon() {
+		return dbCon;
+	}
+
+	/**
      * Vrsi login korisnika u aplikaciju
      * 
      * @param korisnickoIme korisnicko ime naloga
@@ -62,10 +70,10 @@ public class Controller {
      * @return nalog koji se ulogovao
      * @throws Exception 
      */
-    public Nalog login(String korisnickoIme, String sifra) throws Exception {
+    public Nalog login(Nalog n) throws Exception {
         List<Nalog> nalozi = dbCon.vratiSveNaloge();
         for (Nalog nalog : nalozi) {
-            if (nalog.getKorisnickoIme().equals(korisnickoIme) && nalog.getSifra().equals(sifra)) {
+            if (nalog.getKorisnickoIme().equals(n.getKorisnickoIme()) && nalog.getSifra().equals(n.getSifra())) {
                 return nalog;
             }
         }
@@ -97,13 +105,19 @@ public class Controller {
      * Cuva izmene postojeceg naloga u bazi podataka
      * 
      * @param n nalog
-     * @throws Exception 
+     * @return 
+     * <ul>
+	 * 		<li> true - ako je uneti nalog uspesno izmenjen i sacuvan </li>
+	 * 		<li> false - ako unet nalog nije uspesno izmenjen i sacuvan </li>
+	 * </ul>
+     * @throws Exception
      */
-    public void sacuvajNalog(Nalog n) throws Exception {
+    public boolean sacuvajNalog(Nalog n) throws Exception {
         DbConnectionFactory.getInstance().getConnection();
         try {
             dbCon.urediNalog(n);
             DbConnectionFactory.getInstance().getConnection().commit();
+            sacuvan = true;
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
@@ -111,19 +125,26 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
+        return sacuvan;
     }
     
     /**
      * Dodaje novi nalog u bazu podataka
      * 
      * @param n nalog
-     * @throws Exception 
+     * @return
+     * <ul>
+	 * 		<li> true - ako je uneti nalog uspesno sacuvan </li>
+	 * 		<li> false - ako unet nalog nije sacuvan </li>
+	 * </ul>
+     * @throws Exception
      */
-    public void zapamtiNalog(Nalog n) throws Exception {
+    public boolean zapamtiNalog(Nalog n) throws Exception {
         DbConnectionFactory.getInstance().getConnection();
         try {
             dbCon.dodajNalog(n);
             DbConnectionFactory.getInstance().getConnection().commit();
+            sacuvan = true;
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
@@ -131,6 +152,7 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
+        return sacuvan;
     }
     
     /**
@@ -140,21 +162,21 @@ public class Controller {
      * @return lista naloga 
      * @throws Exception 
      */
-    public List<Nalog> nadjiNaloge(String korisnickoIme) throws Exception {
-        List<Nalog> list = new ArrayList<>();
-        DbConnectionFactory.getInstance().getConnection();
-        try{
-            list = dbCon.vratiSveNaloge();
-            DbConnectionFactory.getInstance().getConnection().commit();
-        }catch (Exception e){
-            e.printStackTrace();
-            DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
-        }finally{
-            DbConnectionFactory.getInstance().getConnection().close();
-        }
-        return list;
-    }
+//    public List<Nalog> nadjiNaloge(String korisnickoIme) throws Exception {
+//        List<Nalog> list = new ArrayList<>();
+//        DbConnectionFactory.getInstance().getConnection();
+//        try{
+//            list = dbCon.vratiSveNaloge();
+//            DbConnectionFactory.getInstance().getConnection().commit();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            DbConnectionFactory.getInstance().getConnection().rollback();
+//            throw e;
+//        }finally{
+//            DbConnectionFactory.getInstance().getConnection().close();
+//        }
+//        return list;
+//    }
     
     /**
      * Pronalazi i vraca nalog sa odgovarajucim id-em naloga
@@ -163,23 +185,23 @@ public class Controller {
      * @return nalog
      * @throws Exception 
      */
-    public Nalog ucitajNalog(Nalog nalog) throws Exception{
-        Nalog n = new Nalog();
-        n.setId(0);
-        
-        DbConnectionFactory.getInstance().getConnection();
-        try{
-            n = dbCon.pronadjiNalog(nalog);
-            DbConnectionFactory.getInstance().getConnection().commit();
-        }catch (Exception e){
-            e.printStackTrace();
-            DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
-        }finally{
-            DbConnectionFactory.getInstance().getConnection().close();
-        }
-        return n;
-    }
+//    public Nalog ucitajNalog(Nalog nalog) throws Exception{
+//        Nalog n = new Nalog();
+//        n.setId(0);
+//        
+//        DbConnectionFactory.getInstance().getConnection();
+//        try{
+//            n = dbCon.pronadjiNalog(nalog);
+//            DbConnectionFactory.getInstance().getConnection().commit();
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            DbConnectionFactory.getInstance().getConnection().rollback();
+//            throw e;
+//        }finally{
+//            DbConnectionFactory.getInstance().getConnection().close();
+//        }
+//        return n;
+//    }
      
       
     
@@ -223,13 +245,19 @@ public class Controller {
      * Cuva novu teretanu u bazi podataka
      * 
      * @param t teretana
-     * @throws Exception 
+     * @return
+     * <ul>
+	 * 		<li> true - ako je uneta teretana uspesno sacuvana </li>
+	 * 		<li> false - ako uneta teretana nije sacuvana </li>
+	 * </ul>
+     * @throws Exception
      */
-    public void zapamtiTeretanu(Teretana t) throws Exception {
+    public boolean zapamtiTeretanu(Teretana t) throws Exception {
         DbConnectionFactory.getInstance().getConnection();
         try {
             dbCon.dodajTeretanu(t);
             DbConnectionFactory.getInstance().getConnection().commit();
+            sacuvan = true;
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
@@ -237,6 +265,7 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
+        return sacuvan;
     }
     
     /**
@@ -313,13 +342,19 @@ public class Controller {
      * Cuva izmenu clanarine, odnosno produzetak postojece clanarine, u bazi podataka
      * 
      * @param c clanarina
-     * @throws Exception 
+     * @return
+     * <ul>
+	 * 		<li> true - ako je uneta clanarina uspesno izmenjena i sacuvana </li>
+	 * 		<li> false - ako uneta clanarina nije uspesno izmenjena i sacuvana </li>
+	 * </ul>
+     * @throws Exception
      */
-    public void sacuvajClanarinu(Clanarina c) throws Exception {
+    public boolean sacuvajClanarinu(Clanarina c) throws Exception {
         DbConnectionFactory.getInstance().getConnection();
         try {
             dbCon.urediClanarinu(c);
             DbConnectionFactory.getInstance().getConnection().commit();
+            sacuvan = true;
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
@@ -327,19 +362,27 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
+        return sacuvan;
     }
     
     /**
      * Dodaje novu clanarinu u bazu podataka
      * 
      * @param c clanarina
-     * @throws Exception 
+     * @return
+     * <ul>
+	 * 		<li> true - ako je uneta clanarina uspesno sacuvana </li>
+	 * 		<li> false - ako uneta clanarina nije sacuvana </li>
+	 * </ul>
+     * @throws Exception
      */
-    public void zapamtiClanarinu(Clanarina c) throws Exception {
+    public boolean zapamtiClanarinu(Clanarina c) throws Exception {
         DbConnectionFactory.getInstance().getConnection();
+        boolean sacuvan = false;
         try {
            dbCon.dodajClanarinu(c);
            DbConnectionFactory.getInstance().getConnection().commit();
+           sacuvan = true;
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
@@ -347,6 +390,7 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
+        return sacuvan;
     }
     
     /**
@@ -391,13 +435,20 @@ public class Controller {
      * Cuva novu vrednost ocene nakon izmene u bazi podataka
      * 
      * @param o ocena
-     * @throws Exception 
+     * @return
+     * <ul>
+	 * 		<li> true - ako je uneta ocena uspesno izmenjena i sacuvana </li>
+	 * 		<li> false - ako uneta clanarina nije uspesno izmenjena i sacuvana </li>
+	 * </ul>
+     * @throws Exception
      */
-    public void urediOcenu(Ocena o) throws Exception {
+    public boolean urediOcenu(Ocena o) throws Exception {
         DbConnectionFactory.getInstance().getConnection();
+        boolean sacuvan = false;
         try {
             dbCon.urediOcenu(o);
             DbConnectionFactory.getInstance().getConnection().commit();
+            sacuvan = true;
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
@@ -405,19 +456,27 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
+        return sacuvan;
     }
     
     /**
      * Dodaje novu ocenu u bazu podataka
      * 
      * @param ocena
-     * @throws Exception 
+     * @return
+     * <ul>
+	 * 		<li> true - ako je uneta ocena uspesno sacuvana </li>
+	 * 		<li> false - ako uneta clanarina nije sacuvana </li>
+	 * </ul>
+     * @throws Exception
      */
-    public void dodajOcenu(Ocena ocena) throws Exception {
+    public boolean dodajOcenu(Ocena ocena) throws Exception {
         DbConnectionFactory.getInstance().getConnection();
+        boolean sacuvan = false;
         try {
             dbCon.dodajOcenu(ocena);
             DbConnectionFactory.getInstance().getConnection().commit();
+            sacuvan = true;
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
@@ -425,6 +484,7 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
+        return sacuvan;
     }
         
     
@@ -457,13 +517,20 @@ public class Controller {
      * Dodaje novu opremu u bazu podataka
      * 
      * @param o oprema
-     * @throws Exception 
+     * @return
+     * <ul>
+	 * 		<li> true - ako je uneta oprema uspesno sacuvana </li>
+	 * 		<li> false - ako uneta oprema nije sacuvana </li>
+	 * </ul>
+     * @throws Exception
      */
-    public void dodajOpremu(Oprema o) throws Exception {
+    public boolean dodajOpremu(Oprema o) throws Exception {
         DbConnectionFactory.getInstance().getConnection();
+        boolean sacuvan = false;
         try {
             dbCon.dodajOpremu(o);
             DbConnectionFactory.getInstance().getConnection().commit();
+            sacuvan = true;
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
@@ -471,19 +538,27 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
+        return sacuvan;
     }
     
     /**
      * Uredjuje i cuva promene opreme u bazi podataka
      * 
      * @param o oprema
-     * @throws Exception 
+     * @return
+     * <ul>
+	 * 		<li> true - ako je uneta oprema uspesno izmenjena i sacuvana </li>
+	 * 		<li> false - ako uneta oprema nije uspesno izmenjena i sacuvana </li>
+	 * </ul>
+     * @throws Exception
      */
-    public void urediOpremu(Oprema o) throws Exception {
+    public boolean urediOpremu(Oprema o) throws Exception {
         DbConnectionFactory.getInstance().getConnection();
+        boolean sacuvan = false;
         try {
             dbCon.urediOpremu(o);
             DbConnectionFactory.getInstance().getConnection().commit();
+            sacuvan = true;
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
@@ -491,6 +566,7 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
+        return sacuvan;
     }
     
     /**
@@ -554,13 +630,20 @@ public class Controller {
      * Dodaje novog trenera u bazu podataka
      * 
      * @param t trener
-     * @throws Exception 
+     * @return
+     * <ul>
+	 * 		<li> true - ako je uneti trener uspesno sacuvan </li>
+	 * 		<li> false - ako uneti trener nije sacuvan </li>
+	 * </ul>
+     * @throws Exception
      */
-    public void dodajTrenera(Trener t) throws Exception {
+    public boolean dodajTrenera(Trener t) throws Exception {
         DbConnectionFactory.getInstance().getConnection();
+        boolean sacuvan = false;
         try {
             dbCon.dodajTrenera(t);
             DbConnectionFactory.getInstance().getConnection().commit();
+            sacuvan = true;
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
@@ -568,19 +651,28 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
+        return sacuvan;
     }
+    
     
     /**
      * Vrsi i cuva izmenu trenera u bazi podataka
      * 
      * @param t trener
-     * @throws Exception 
+     * @return 
+     * <ul>
+	 * 		<li> true - ako je uneti trener uspesno izmenjen i sacuvan </li>
+	 * 		<li> false - ako uneti trener nije uspesno izmenjen i sacuvan </li>
+	 * </ul>
+     * @throws Exception
      */
-    public void urediTrenera(Trener t) throws Exception {
+    public boolean urediTrenera(Trener t) throws Exception {
         DbConnectionFactory.getInstance().getConnection();
+        boolean sacuvan = false;
         try {
             dbCon.urediTrenera(t);
             DbConnectionFactory.getInstance().getConnection().commit();
+            sacuvan = true;
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
@@ -588,6 +680,7 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
+        return sacuvan;
     }
     
     /**
@@ -619,13 +712,19 @@ public class Controller {
      * Dodaje novi individualni trening u bazu podataka
      * 
      * @param it individualni trening
-     * @throws Exception 
+     * @return
+     * <ul>
+	 * 		<li> true - ako je uneti individualni trening uspesno sacuvan </li>
+	 * 		<li> false - ako uneti individualni trening nije sacuvan </li>
+     * @throws Exception
      */
-   public void dodajIndividualniTrening(IndividualniTrening it) throws Exception {
+   public boolean dodajIndividualniTrening(IndividualniTrening it) throws Exception {
         DbConnectionFactory.getInstance().getConnection();
+        boolean sacuvan = false;
         try {
             dbCon.dodajIndividualniTrening(it);
             DbConnectionFactory.getInstance().getConnection().commit();
+            sacuvan = true;
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
@@ -633,6 +732,7 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
+        return sacuvan;
     }
     
    /**
@@ -643,7 +743,7 @@ public class Controller {
     * @throws Exception 
     */
     public List<IndividualniTrening> vratiSveIndividualneTreninge(Trener t) throws Exception{
-        return vratiSveIndividualneTreninge(t);
+        return dbCon.vratiSveIndividualneTreninge(t);
     }
     
     /**
@@ -654,6 +754,6 @@ public class Controller {
      * @throws Exception 
      */
     public List<IndividualniTrening> vratiSveIndividualneTreninge(Nalog n) throws Exception{
-        return vratiSveIndividualneTreninge(n);
+    	return dbCon.vratiSveIndividualneTreninge(n);
     }
 }

@@ -112,7 +112,7 @@ public class FrmLogin extends javax.swing.JFrame {
         String sifra = txtSifra.getText();
         if(validate(korisnicko_ime, sifra)){
             try {
-                Nalog nalog = Controller.getInstance().login(korisnicko_ime, sifra);
+                Nalog nalog = Controller.getInstance().login(new Nalog(korisnicko_ime, sifra));
                 JOptionPane.showMessageDialog(this, "Ulogovani ste. Dobrodošli " + nalog.getKorisnickoIme());
                 
                 (new FrmMain(nalog)).setVisible(true);
