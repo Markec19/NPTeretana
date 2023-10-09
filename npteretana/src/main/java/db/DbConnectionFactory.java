@@ -183,43 +183,7 @@ public class DbConnectionFactory {
             return null;
         }       
     }
-    
-    /**
-     * Trazi nalog iz baze podataka prema id-u naloga
-     * 
-     * @param nalog
-     * @return nalog
-     * @throws Exception 
-     */
-//    public Nalog pronadjiNalog(Nalog nalog) throws Exception {
-//        
-//        try {
-//            String query = "SELECT * FROM nalog WHERE id=" + nalog.getId();
-//            
-//            List<Nalog> list = new ArrayList<>();
-//            //Connection conn = DbConnectionFactory.getInstance().getConnection();
-//            Statement stat = connection.createStatement();
-//            ResultSet rs = stat.executeQuery(query);
-//            while(rs.next()){
-//                Nalog n = new Nalog();
-//                n.setId(rs.getLong("id"));
-//                n.setIme(rs.getString("ime"));
-//                n.setPrezime(rs.getString("prezime"));
-//                n.setKorisnickoIme(rs.getString("korisnicko_ime"));
-//                n.setSifra(rs.getString("sifra_naloga"));
-//                
-//                list.add(n);
-//            }            
-//            rs.close();
-//            stat.close();
-//            //conn.close();
-//            return list.get(0);
-//        } catch (Exception ex) {
-//            System.out.println(ex.getMessage());
-//            return null;
-//        }
-//    }
-    
+      
     
     /**
      * Vraca listu svih gradova iz baze podataka
@@ -281,31 +245,7 @@ public class DbConnectionFactory {
         
         ps.close();
     }
-    
-    /**
-     * Cuva izmenu teretane u bazi podataka
-     * 
-     * @param t teretana
-     * @throws Exception 
-     */
-//    public void urediTeretanu(Teretana t) throws Exception {
-//        try {
-//            String sql = "UPDATE teretana SET "
-//                    + "naziv='" + t.getNaziv()+ "', "
-//                    + "adresa='" + t.getAdresa()+ "', "
-//                    + "grad_id='" + t.getGrad().getId()+ "', "
-//                    + "WHERE id=" + t.getId();
-//            System.out.println(sql);
-//            //Connection connection = DbConnectionFactory.getInstance().getConnection();
-//            Statement statement = connection.createStatement();
-//            statement.executeUpdate(sql);
-//            statement.close();
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            throw new Exception("Update product DB error: \n" + ex.getMessage());
-//        }
-//    }
-    
+        
     /**
      * Vraca listu svih teretana iz baze podataka
      * 
@@ -429,17 +369,6 @@ public class DbConnectionFactory {
         }
     }
     
-    
-    
-//    public void dodajVrstuOpreme(VrstaOpreme vo) throws Exception {
-//        String query = "INSERT INTO vrsta_opreme(naziv) VALUES (?)";
-//        Connection conn = DbConnectionFactory.getInstance().getConnection();
-//        PreparedStatement ps = conn.prepareStatement(query);
-//        ps.setString(1, vo.getVrsta());
-//        ps.executeUpdate();
-//        ps.close();
-//    }
-    
     /**
      * Vraca listu svih vrsta opreme
      * 
@@ -520,19 +449,6 @@ public class DbConnectionFactory {
             System.out.println("Update oprema error: \n" + ex.getMessage());
         }
     }
-    
-//    public void izbrisiOpremu(Oprema o) throws Exception {
-//        try {
-//            String query = "DELETE FROM oprema WHERE id=" + o.getId();
-//            Connection conn = DbConnectionFactory.getInstance().getConnection();
-//            Statement stat = conn.createStatement();
-//            stat.executeUpdate(query);
-//            stat.close();
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            System.out.println("Delete oprema error: \n" + ex.getMessage());
-//        }
-//    }
     
     /**
      * Vraca listu svih oprema
@@ -814,9 +730,6 @@ public class DbConnectionFactory {
                 g.setNaziv(rs.getString("g.naziv_grada"));                
                 t.setGrad(g);
                 
-//                t.setOpreme(Controller.getInstance().nadjiOpreme(t));
-//                t.setTreneri(Controller.getInstance().nadjiTrenere(t));
-                
                 c.setTeretana(t);
                 
                 list.add(c);
@@ -1022,9 +935,6 @@ public class DbConnectionFactory {
                 g.setNaziv(rs.getString("g.naziv_grada"));                
                 t.setGrad(g);
                 
-//                t.setOpreme(Controller.getInstance().nadjiOpreme(t));
-//                t.setTreneri(Controller.getInstance().nadjiTrenere(t));
-                
                 o.setTeretana(t);
                 
                 list.add(o);
@@ -1192,23 +1102,6 @@ public class DbConnectionFactory {
         ps.executeUpdate();
         ps.close();
     }
-    
-//    public void urediIndividualniTrening(IndividualniTrening it) throws Exception {
-//        try {
-//            String sql = "UPDATE individualni_trening SET "
-//                    + "termin=" + it.getTermin()+ " "
-//                    + "WHERE nalog_id=" + it.getNalog().getId()
-//                    + " AND trener_id=" + it.getTrener().getId();
-//            System.out.println(sql);
-//            Connection connection = DbConnectionFactory.getInstance().getConnection();
-//            Statement statement = connection.createStatement();
-//            statement.executeUpdate(sql);
-//            statement.close();
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//            throw new Exception("Update individualni_trening DB error: \n" + ex.getMessage());
-//        }
-//    }
     
     /**
      * Vraca listu svih individualnih treninga

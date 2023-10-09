@@ -112,22 +112,6 @@ class ControllerTest {
 	}
 
 	/**
-	 * Test method for {@link controller.Controller#nadjiNaloge(java.lang.String)}.
-	 */
-//	@Test
-//	void testNadjiNaloge() {
-//		fail("Not yet implemented");
-//	}
-
-	/**
-	 * Test method for {@link controller.Controller#ucitajNalog(domain.Nalog)}.
-	 */
-//	@Test
-//	void testUcitajNalog() {
-//		fail("Not yet implemented");
-//	}
-
-	/**
 	 * Test method for {@link controller.Controller#vratiSveGradove()}.
 	 * @throws Exception 
 	 */

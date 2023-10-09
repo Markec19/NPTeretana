@@ -95,17 +95,7 @@ public class Controller {
      */
     public List<Nalog> vratiSveNaloge() throws Exception{
         return dbCon.vratiSveNaloge();
-    }      
-    
-//    public Nalog kreirajNalog() throws Exception{
-//        Nalog n = new Nalog();
-//        n.setIme("Unesite ime korisnika");
-//        n.setPrezime("Unesite prezime korisnika");
-//        n.setKorisnickoIme("Unesite korisničko ime");
-//        n.setSifra("Unesite šifru");
-//        
-//        return n;
-//    }
+    }
     
     /**
      * Cuva izmene postojeceg naloga u bazi podataka
@@ -162,57 +152,8 @@ public class Controller {
         sacuvajUJSONNalog(n);
         
         return sacuvan;
-    }
+    }    
     
-    /**
-     * Trazi naloge po korisnickom imenu
-     * 
-     * @param korisnickoIme korisnicko ime naloga
-     * @return lista naloga 
-     * @throws Exception 
-     */
-//    public List<Nalog> nadjiNaloge(String korisnickoIme) throws Exception {
-//        List<Nalog> list = new ArrayList<>();
-//        DbConnectionFactory.getInstance().getConnection();
-//        try{
-//            list = dbCon.vratiSveNaloge();
-//            DbConnectionFactory.getInstance().getConnection().commit();
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            DbConnectionFactory.getInstance().getConnection().rollback();
-//            throw e;
-//        }finally{
-//            DbConnectionFactory.getInstance().getConnection().close();
-//        }
-//        return list;
-//    }
-    
-    /**
-     * Pronalazi i vraca nalog sa odgovarajucim id-em naloga
-     * 
-     * @param nalog
-     * @return nalog
-     * @throws Exception 
-     */
-//    public Nalog ucitajNalog(Nalog nalog) throws Exception{
-//        Nalog n = new Nalog();
-//        n.setId(0);
-//        
-//        DbConnectionFactory.getInstance().getConnection();
-//        try{
-//            n = dbCon.pronadjiNalog(nalog);
-//            DbConnectionFactory.getInstance().getConnection().commit();
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            DbConnectionFactory.getInstance().getConnection().rollback();
-//            throw e;
-//        }finally{
-//            DbConnectionFactory.getInstance().getConnection().close();
-//        }
-//        return n;
-//    }
-     
-      
     
     /**
      * Vraca listu svih gradova u bazi podataka
@@ -235,20 +176,6 @@ public class Controller {
     public List<Teretana> vratiSveTeretane() throws Exception{
         return dbCon.vratiSveTeretane();
     }
-        
-//    public void sacuvajTeretanu(Teretana t) throws Exception {
-//        DbConnectionFactory.getInstance().getConnection();
-//        try {
-//            dbCon.urediTeretanu(t);
-//            DbConnectionFactory.getInstance().getConnection().commit();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            DbConnectionFactory.getInstance().getConnection().rollback();
-//            throw e;
-//        } finally {
-//            DbConnectionFactory.getInstance().getConnection().close();
-//        }
-//    }
     
     /**
      * Cuva novu teretanu u bazi podataka
@@ -498,21 +425,6 @@ public class Controller {
         }
         return sacuvan;
     }
-        
-    
-//    public void dodajVrstuOpreme(VrstaOpreme vrstaOpreme) throws Exception {
-//        DbConnectionFactory.getInstance().getConnection();
-//        try {
-//            dbCon.dodajVrstuOpreme(vrstaOpreme);
-//            DbConnectionFactory.getInstance().getConnection().commit();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            DbConnectionFactory.getInstance().getConnection().rollback();
-//            throw e;
-//        } finally {
-//            DbConnectionFactory.getInstance().getConnection().close();
-//        }
-//    }
     
     /**
      * Vraca listu svih vrsta opreme iz baze podataka
@@ -782,7 +694,6 @@ public class Controller {
 			sacuvan = true;
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	
@@ -799,7 +710,6 @@ public class Controller {
 				sacuvan = true;
 				
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	    	
@@ -816,7 +726,6 @@ public class Controller {
 			sacuvan = true;
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
