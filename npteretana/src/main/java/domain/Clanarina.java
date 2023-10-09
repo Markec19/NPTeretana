@@ -20,6 +20,7 @@ import java.util.Objects;
  * @author Luka
  */
 public class Clanarina implements Serializable{
+	
 	/**
      * Id clanarine kao long
      */
