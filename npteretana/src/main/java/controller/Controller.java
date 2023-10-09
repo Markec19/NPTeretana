@@ -13,10 +13,16 @@ import domain.Oprema;
 import domain.Teretana;
 import domain.Trener;
 import domain.VrstaOpreme;
+
+import java.io.FileWriter;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import db.DbConnectionFactory;
 
 /**
@@ -152,6 +158,9 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
+        
+        sacuvajUJSONNalog(n);
+        
         return sacuvan;
     }
     
@@ -265,6 +274,9 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
+        
+        sacuvajUJSONTeretana(t);
+        
         return sacuvan;
     }
     
@@ -651,6 +663,9 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
+        
+        sacuvajUJSONTrener(t);
+        
         return sacuvan;
     }
     
@@ -756,4 +771,55 @@ public class Controller {
     public List<IndividualniTrening> vratiSveIndividualneTreninge(Nalog n) throws Exception{
     	return dbCon.vratiSveIndividualneTreninge(n);
     }
+    
+    public boolean sacuvajUJSONNalog(Nalog n) {
+    	
+    	Gson gson = new GsonBuilder().create();
+    	
+    	try(FileWriter fw = new FileWriter(String.format("nalog_'%s'", n.getKorisnickoIme()))){
+			
+			fw.write(gson.toJson(n));
+			sacuvan = true;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	return sacuvan;
+    }
+    
+	public boolean sacuvajUJSONTeretana(Teretana t) {
+	    	
+	    	Gson gson = new GsonBuilder().create();
+	    	
+	    	try(FileWriter fw = new FileWriter(String.format("teretana_'%s'_'%s'_'%s'", t.getNaziv(), t.getGrad(), t.getAdresa()))){
+				
+				fw.write(gson.toJson(t));
+				sacuvan = true;
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	
+	    	return sacuvan;
+	    }
+
+	public boolean sacuvajUJSONTrener(Trener t) {
+		
+		Gson gson = new GsonBuilder().create();
+		
+		try(FileWriter fw = new FileWriter(String.format("Trener_'%s'_'%s'_'%s'", t.getIme(), t.getPrezime(),t.getTeretana().getNaziv()))){
+			
+			fw.write(gson.toJson(t));
+			sacuvan = true;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return sacuvan;
+	}
 }

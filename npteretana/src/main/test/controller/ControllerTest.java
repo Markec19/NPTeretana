@@ -689,5 +689,31 @@ class ControllerTest {
 		
 		assertTrue(c.vratiSveIndividualneTreninge(n).size() > 0);
 	}
+	
+	@Test
+	void testSacuvajUJSONNalog() {
+		Nalog n = new Nalog("Test", "Test", "test111", "test123");
+		
+		assertEquals(true, c.sacuvajUJSONNalog(n));
+	}
+	
+	@Test
+	void testSacuvajUJSONTeretana() {
+		Grad g = new Grad("Beograd");
+		
+		Teretana t = new Teretana("Teretana test", "Adresa test", g);
+		
+		assertEquals(true, c.sacuvajUJSONTeretana(t));
+	}
+	
+	@Test
+	void testSacuvajUJSONTrener() {
+		Grad g = new Grad("Beograd");
+		Teretana tr = new Teretana("Teretana test", "Adresa test", g);
+		
+		Trener t = new Trener("Test", "Test", tr);
+		
+		assertEquals(true, c.sacuvajUJSONTrener(t));
+	}
 
 }

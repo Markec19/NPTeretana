@@ -133,9 +133,9 @@ public class FrmIndividualniTrening extends javax.swing.JFrame {
         try { 
             if(it != null){
                 Controller.getInstance().dodajIndividualniTrening(it);
-                JOptionPane.showMessageDialog(this, "Sistem je zapamtio trenera");
+                JOptionPane.showMessageDialog(this, "Sistem je zapamtio trening");
             }else{
-                JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti trenera");
+                JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti trening");
             } 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti trenera");
