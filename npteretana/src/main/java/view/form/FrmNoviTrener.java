@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import view.form.util.FormMode;
 
@@ -37,6 +38,8 @@ public class FrmNoviTrener extends javax.swing.JFrame {
         this.fm = fm;
         trener = new Trener();
         
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         popuniFormu(fm);
     }
     
@@ -44,6 +47,9 @@ public class FrmNoviTrener extends javax.swing.JFrame {
         initComponents();
         
         this.trener = trener;
+                
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         
         popuniFormu(fm);
     }
@@ -160,12 +166,12 @@ public class FrmNoviTrener extends javax.swing.JFrame {
         if(t != null){
             try {
                 zapamtiTrenera(t);
-                JOptionPane.showMessageDialog(this, "Sistem je zapamtio teretanu");
+                JOptionPane.showMessageDialog(this, "Sistem je zapamtio trenera");
             } catch (Exception ex) {
                 Logger.getLogger(FrmNoviTrener.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else{
-            JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti teretanu");
+            JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti trenera");
         }
     }//GEN-LAST:event_btnPotvrdiActionPerformed
 

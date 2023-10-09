@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import view.form.component.table.TeretanaTableModel;
 import view.form.component.table.TrenerTableModel;
@@ -35,6 +36,8 @@ public class FrmPregledTeretana extends javax.swing.JFrame {
         t = new Teretana();
         teretane = new ArrayList<>();
         
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         popuniFormu();
     }
 

@@ -5,6 +5,7 @@
 package view.form;
 
 import controller.Controller;
+import domain.Clanarina;
 import domain.IndividualniTrening;
 import domain.Nalog;
 import domain.Teretana;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -35,6 +37,8 @@ public class FrmIndividualniTrening extends javax.swing.JFrame {
     public FrmIndividualniTrening(Nalog n) {
         initComponents();
         this.n = n;
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         popuniFormu();
     }
 
@@ -138,7 +142,7 @@ public class FrmIndividualniTrening extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti trening");
             } 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti trenera");
+            JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti trening");
             Logger.getLogger(FrmIndividualniTrening.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnPotvrdiActionPerformed
@@ -164,7 +168,10 @@ public class FrmIndividualniTrening extends javax.swing.JFrame {
         List<Teretana> teretane;
         
         try {
-            teretane = Controller.getInstance().vratiSveTeretane();
+            //teretane = Controller.getInstance().vratiSveTeretane();
+            
+            teretane = vratiTeretaneSaClanarinom();
+            
             jcbTeretana.setModel(new DefaultComboBoxModel(teretane.toArray()));
         } catch (Exception ex) {
             Logger.getLogger(FrmIndividualniTrening.class.getName()).log(Level.SEVERE, null, ex);
@@ -189,7 +196,22 @@ public class FrmIndividualniTrening extends javax.swing.JFrame {
         
     }
 
-    /**
+    private List<Teretana> vratiTeretaneSaClanarinom() {
+    	List<Teretana> list = new ArrayList<>();
+    	List<Clanarina> clanarine = new ArrayList<>();
+    	
+    	try {
+    		clanarine = Controller.getInstance().vratiSveClanarine(n);
+			for(int i = 0; i <= clanarine.size(); i++)
+				list.add(clanarine.get(i).getTeretana());			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+		return list;
+	}
+
+	/**
      * Vraca individualni trening na osnovu podataka unetih u formu
      * 
      * @return individualni trening

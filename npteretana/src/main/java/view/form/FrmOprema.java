@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import view.form.component.table.OpremaTableModel;
 
@@ -31,6 +32,8 @@ public class FrmOprema extends javax.swing.JFrame {
      */
     public FrmOprema() {
         initComponents();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         popuniFormu();
     }
 
@@ -294,33 +297,4 @@ public class FrmOprema extends javax.swing.JFrame {
         }            
         return o;
     }
-
-//    private void racunanjeKolicine(Oprema o) throws Exception {
-//        Teretana t = o.getTeretana();
-//        List<Oprema> list = Controller.getInstance().nadjiOpreme(t);
-//        boolean postoji = false;
-//        int i = 0;
-//        int kolicina = 1;
-//        
-//        if(list.size() > 0)
-//            while(!postoji){
-//            Oprema op = list.get(i);
-//            if(o.getVrsta().equals(op.getVrsta())){
-//                kolicina = op.getKolicina() + 1;
-//                o.setKolicina(kolicina);
-//                postaviKolicinu(o.getVrsta(), kolicina, list);
-//                postoji = true;
-//            }
-//            i++;
-//        } else{
-//            o.setKolicina(kolicina);
-//        }
-//    }
-//
-//    private void postaviKolicinu(VrstaOpreme vrsta, int kolicina, List<Oprema> list) {
-//        for (int i = 0; i < list.size(); i++) {
-//            if(list.get(i).getVrsta().equals(vrsta))
-//                list.get(i).setKolicina(kolicina);
-//        }
-//    }
 }

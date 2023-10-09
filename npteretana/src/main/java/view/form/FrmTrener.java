@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import view.form.component.table.TrenerTableModel;
 import view.form.util.FormMode;
@@ -36,6 +38,8 @@ public class FrmTrener extends javax.swing.JFrame {
         this.teretana = teretana;
         trener = new Trener();
         
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
         popuniFormu();
     }
 

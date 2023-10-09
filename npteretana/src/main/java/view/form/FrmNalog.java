@@ -40,6 +40,7 @@ public class FrmNalog extends javax.swing.JFrame {
         this.n = n;
         ocene = new ArrayList<>();
         
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         popuniFormu();
     }
 

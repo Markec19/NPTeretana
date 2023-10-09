@@ -417,7 +417,7 @@ public class FrmClanarina extends javax.swing.JFrame {
      * @throws Exception 
      */
     private void azurirajNalogFormu() throws Exception {
-        List<Clanarina> list = Controller.getInstance().vratiSveClanarine();
+        List<Clanarina> list = Controller.getInstance().vratiSveClanarine(n);
         nalogForma.getTblClanarina().setModel(new ClanarinaTableModel(list));
     }
 
@@ -601,10 +601,6 @@ public class FrmClanarina extends javax.swing.JFrame {
     private Clanarina ucitajClanarinu(Clanarina c) throws Exception {
         return Controller.getInstance().ucitajClanarinu(c);
     }
-
-//    private Clanarina kreirajClanarinu() throws Exception {
-//        return Controller.getInstance().kreirajClanarinu(c);
-//    }
 
     
     

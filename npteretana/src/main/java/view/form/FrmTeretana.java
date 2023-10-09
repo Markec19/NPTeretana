@@ -34,6 +34,7 @@ public class FrmTeretana extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         
         teretane = new ArrayList<>();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         pokreniFormu();
     }
 
