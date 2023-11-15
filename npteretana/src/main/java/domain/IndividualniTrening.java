@@ -120,18 +120,6 @@ public class IndividualniTrening implements Serializable{
     }
 
     /**
-     * Override metode hashCode klase Object
-     */ 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.nalog);
-        hash = 29 * hash + Objects.hashCode(this.trener);
-        hash = 29 * hash + Objects.hashCode(this.termin);
-        return hash;
-    }
-
-    /**
      * Poredi dve instance grada
      */
     @Override

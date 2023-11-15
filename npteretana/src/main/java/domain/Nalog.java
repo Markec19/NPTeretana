@@ -168,20 +168,6 @@ public class Nalog implements Serializable{
     }
 
     /**
-     * Override metode hashCode klase Object
-     */  
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 89 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 89 * hash + Objects.hashCode(this.ime);
-        hash = 89 * hash + Objects.hashCode(this.prezime);
-        hash = 89 * hash + Objects.hashCode(this.korisnickoIme);
-        hash = 89 * hash + Objects.hashCode(this.sifra);
-        return hash;
-    }
-
-    /**
      * Poredi dve instance naloga
      */
     @Override

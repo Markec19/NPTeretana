@@ -193,21 +193,6 @@ public class Clanarina implements Serializable{
         if(datumDo == null || datumDo.isBefore(datumOd))
             throw new IllegalArgumentException("Datum do ne moze biti null i ne moze biti pre datuma od"); 
         this.datumDo = datumDo;
-    }   
-
-    /**
-     * Override metode hashCode klase Object
-     */
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 53 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 53 * hash + Objects.hashCode(this.cena);
-        hash = 53 * hash + Objects.hashCode(this.nalog);
-        hash = 53 * hash + Objects.hashCode(this.teretana);
-        hash = 53 * hash + Objects.hashCode(this.datumOd);
-        hash = 53 * hash + Objects.hashCode(this.datumDo);
-        return hash;
     }
 
     /**

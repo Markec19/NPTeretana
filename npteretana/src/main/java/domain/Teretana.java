@@ -237,20 +237,6 @@ public class Teretana implements Serializable {
     public void setTreneri(List<Trener> treneri) {
         this.treneri = treneri;
     }
-    
-    /**
-     * Override metode hashCode klase Object
-     */ 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 67 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 67 * hash + Objects.hashCode(this.naziv);
-        hash = 67 * hash + Objects.hashCode(this.adresa);
-        hash = 67 * hash + Objects.hashCode(this.prosecnaOcena);
-        hash = 67 * hash + Objects.hashCode(this.grad);
-        return hash;
-    }
 
     /**
      * Poredi dve instance teretana

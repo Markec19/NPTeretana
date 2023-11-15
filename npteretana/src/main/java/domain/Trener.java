@@ -134,19 +134,6 @@ public class Trener implements Serializable{
     }
 
     /**
-     * Override metode hashCode klase Object
-     */ 
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 73 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 73 * hash + Objects.hashCode(this.ime);
-        hash = 73 * hash + Objects.hashCode(this.prezime);
-        hash = 73 * hash + Objects.hashCode(this.teretana);
-        return hash;
-    }
-
-    /**
      * Poredi dve instance grada
      */
     @Override

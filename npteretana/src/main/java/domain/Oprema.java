@@ -146,20 +146,6 @@ public class Oprema implements Serializable{
     }
 
     /**
-     * Override metode hashCode klase Object
-     */ 
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 71 * hash + (int) (this.id ^ (this.id >>> 32));
-        //hash = 71 * hash + this.kolicina;
-        hash = 71 * hash + Objects.hashCode(this.stanjeOpreme);
-        hash = 71 * hash + Objects.hashCode(this.vrsta);
-        hash = 71 * hash + Objects.hashCode(this.teretana);
-        return hash;
-    }
-
-    /**
      * Poredi dve instance oprema
      */
     @Override

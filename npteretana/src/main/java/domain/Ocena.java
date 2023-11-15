@@ -117,18 +117,6 @@ public class Ocena implements Serializable {
     }
 
     /**
-     * Override metode hashCode klase Object
-     */
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 43 * hash + Objects.hashCode(this.nalog);
-        hash = 43 * hash + Objects.hashCode(this.teretana);
-        hash = 43 * hash + this.vrednost;
-        return hash;
-    }
-
-    /**
      * Poredi dve instance ocena
      */
     @Override

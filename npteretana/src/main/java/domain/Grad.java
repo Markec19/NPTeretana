@@ -78,17 +78,6 @@ public class Grad implements Serializable {
     }
 
     /**
-     * Override metode hashCode klase Object
-     */ 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 97 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 97 * hash + Objects.hashCode(this.naziv);
-        return hash;
-    }
-
-    /**
      * Poredi dve instance grada
      */
     @Override

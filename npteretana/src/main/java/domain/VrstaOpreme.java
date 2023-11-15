@@ -78,17 +78,6 @@ public class VrstaOpreme implements Serializable{
     }
 
     /**
-     * Override metode hashCode klase Object
-     */
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 73 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 73 * hash + Objects.hashCode(this.vrsta);
-        return hash;
-    }
-
-    /**
      * Poredi dve instance vrsta opreme
      */
     @Override
