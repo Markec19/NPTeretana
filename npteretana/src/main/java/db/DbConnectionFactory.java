@@ -433,7 +433,7 @@ public class DbConnectionFactory {
      * @param o oprema
      * @throws Exception 
      */
-    public void urediOpremu(Oprema o) throws Exception {
+/*    public void urediOpremu(Oprema o) throws Exception {
         try {
             String query = "UPDATE oprema SET "
                 //+ "kolicina=" + o.getKolicina() + ", "
@@ -448,7 +448,7 @@ public class DbConnectionFactory {
             ex.printStackTrace();
             System.out.println("Update oprema error: \n" + ex.getMessage());
         }
-    }
+    }/*
     
     /**
      * Vraca listu svih oprema

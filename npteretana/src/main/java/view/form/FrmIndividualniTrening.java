@@ -197,18 +197,18 @@ public class FrmIndividualniTrening extends javax.swing.JFrame {
     }
 
     private List<Teretana> vratiTeretaneSaClanarinom() {
-    	List<Teretana> list = new ArrayList<>();
     	List<Clanarina> clanarine = new ArrayList<>();
+    	List<Teretana> teretane = new ArrayList<>();
     	
     	try {
-    		clanarine = Controller.getInstance().vratiSveClanarine(n);
-			for(int i = 0; i <= clanarine.size(); i++)
-				list.add(clanarine.get(i).getTeretana());			
+    		clanarine = Controller.getInstance().vratiSveClanarine(n);	
+    		for(int i = 0; i < clanarine.size(); i++)
+    			teretane.add(clanarine.get(i).getTeretana());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
     	
-		return list;
+		return teretane;
 	}
 
 	/**

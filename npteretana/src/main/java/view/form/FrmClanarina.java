@@ -301,7 +301,7 @@ public class FrmClanarina extends javax.swing.JFrame {
                     zapamtiClanarinu(c);
                 }
                 
-                azurirajNalogFormu();
+                azurirajNalogFormu(n);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Sistem ne može da zapamti članarinu");
                 Logger.getLogger(FrmClanarina.class.getName()).log(Level.SEVERE, null, ex);
@@ -331,7 +331,7 @@ public class FrmClanarina extends javax.swing.JFrame {
             try {
                 c.setCena(cena);
                 sacuvajClanarinu(c);
-                azurirajNalogFormu();
+                azurirajNalogFormu(c.getNalog());
                 
                 JOptionPane.showMessageDialog(this, "Sistem je sačuvao članarinu");
                 JOptionPane.showMessageDialog(this, "Članarina je produžena do " + c.getDatumDo());
@@ -416,7 +416,7 @@ public class FrmClanarina extends javax.swing.JFrame {
      * 
      * @throws Exception 
      */
-    private void azurirajNalogFormu() throws Exception {
+    private void azurirajNalogFormu(Nalog n) throws Exception {
         List<Clanarina> list = Controller.getInstance().vratiSveClanarine(n);
         nalogForma.getTblClanarina().setModel(new ClanarinaTableModel(list));
     }

@@ -476,7 +476,7 @@ public class Controller {
 	 * </ul>
      * @throws Exception
      */
-    public boolean urediOpremu(Oprema o) throws Exception {
+/*    public boolean urediOpremu(Oprema o) throws Exception {
         DbConnectionFactory.getInstance().getConnection();
         boolean sacuvan = false;
         try {
@@ -491,7 +491,7 @@ public class Controller {
             DbConnectionFactory.getInstance().getConnection().close();
         }
         return sacuvan;
-    }
+    }*/
     
     /**
      * Vraca listu opreme iz odredjene teretani
@@ -575,8 +575,6 @@ public class Controller {
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
-        
-        sacuvajUJSONTrener(t);
         
         return sacuvan;
     }
@@ -715,20 +713,4 @@ public class Controller {
 	    	
 	    	return sacuvan;
 	    }
-
-	public boolean sacuvajUJSONTrener(Trener t) {
-		
-		Gson gson = new GsonBuilder().create();
-		
-		try(FileWriter fw = new FileWriter(String.format("Trener_'%s'_'%s'_'%s'", t.getIme(), t.getPrezime(),t.getTeretana().getNaziv()))){
-			
-			fw.write(gson.toJson(t));
-			sacuvan = true;
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return sacuvan;
-	}
 }

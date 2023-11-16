@@ -440,28 +440,6 @@ class ControllerTest {
 		assertEquals(true, c.dodajOpremu(o));
 	}
 
-	/**
-	 * Test method for {@link controller.Controller#urediOpremu(domain.Oprema)}.
-	 * @throws Exception 
-	 */
-	@Test
-	void testUrediOpremu() throws Exception {
-		Grad g = new Grad(1, "Beograd");
-		Teretana t = new Teretana();		
-		t.setGrad(g);
-		t.setNaziv("Teretana test");
-		t.setAdresa("Adresa test");
-		c.zapamtiTeretanu(t);
-		
-		VrstaOpreme vo = new VrstaOpreme(1, "Traka za trcanje");
-		
-		String stanje = "Dobro";
-		Oprema o = new Oprema(stanje, vo, t);
-		c.dodajOpremu(o);
-		o.setStanjeOpreme("Srednje");
-		
-		assertEquals(true, c.urediOpremu(o));
-	}
 
 	/**
 	 * Test method for {@link controller.Controller#nadjiOpreme(domain.Teretana)}.
@@ -690,14 +668,5 @@ class ControllerTest {
 		assertEquals(true, c.sacuvajUJSONTeretana(t));
 	}
 	
-	@Test
-	void testSacuvajUJSONTrener() {
-		Grad g = new Grad("Beograd");
-		Teretana tr = new Teretana("Teretana test", "Adresa test", g);
-		
-		Trener t = new Trener("Test", "Test", tr);
-		
-		assertEquals(true, c.sacuvajUJSONTrener(t));
-	}
 
 }
