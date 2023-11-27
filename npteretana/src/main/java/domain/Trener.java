@@ -36,9 +36,20 @@ public class Trener implements Serializable{
      */
     private Teretana teretana;
 
+    /**
+     * Kreira objekat trener kojem nisu dodeljene konkretne vrednosti
+     */
     public Trener() {
     }
 
+    /**
+     * Postavlja id, ime, prezime i teretanu na unete vrednosti
+     * 
+     * @param id id trenera
+     * @param ime ime trenera
+     * @param prezime prezime trenera
+     * @param teretana teretana u kojoj trener radi
+     */
     public Trener(long id, String ime, String prezime, Teretana teretana) {
         this.id = id;
         this.ime = ime;
@@ -46,6 +57,13 @@ public class Trener implements Serializable{
         this.teretana = teretana;
     }
 
+    /**
+     * Postavlja ime, prezime i teretanu na unete vrednosti
+     * 
+     * @param ime ime trenera
+     * @param prezime prezime trenera
+     * @param teretana teretana u kojoj trener radi
+     */
     public Trener(String ime, String prezime, Teretana teretana) {
         this.ime = ime;
         this.prezime = prezime;

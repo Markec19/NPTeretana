@@ -42,14 +42,32 @@ public class Nalog implements Serializable{
      */
     private String sifra;
 
+    /**
+     * Kreira objekat nalog kojem nisu dodeljene konkretne vrednosti
+     */
     public Nalog() {
     }       
 
+    /**
+     * Postavlja korisnicko ime i sifru na unete vrednosti
+     * 
+     * @param korisnickoIme korisnicko ime naloga
+     * @param sifra sifra naloga
+     */
     public Nalog(String korisnickoIme, String sifra) {
 		this.korisnickoIme = korisnickoIme;
 		this.sifra = sifra;
 	}
 
+    /**
+     * Postavlja id, ime, prezime, korisnicko ime i sifru na unete vrednosti
+     * 
+     * @param id id naloga
+     * @param ime ime korisnika naloga
+     * @param prezime prezime korisnika naloga
+     * @param korisnickoIme korisnicko ime naloga
+     * @param sifra sifra naloga
+     */
 	public Nalog(long id, String ime, String prezime, String korisnickoIme, String sifra) {
         this.id = id;
         this.ime = ime;
@@ -57,7 +75,15 @@ public class Nalog implements Serializable{
         this.korisnickoIme = korisnickoIme;
         this.sifra = sifra;
     }
-
+	
+	/**
+	 * Postavlja ime, prezime, korisnicko ime i sifru na unete vrednosti
+	 * 
+     * @param ime ime korisnika naloga
+     * @param prezime prezime korisnika naloga
+     * @param korisnickoIme korisnicko ime naloga
+     * @param sifra sifra naloga
+	 */
     public Nalog(String ime, String prezime, String korisnickoIme, String sifra) {
         this.ime = ime;
         this.prezime = prezime;

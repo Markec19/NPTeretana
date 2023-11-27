@@ -26,13 +26,27 @@ public class Grad implements Serializable {
      */
     private String naziv;
 
+    /**
+     * Kreira objekat grad kojem nisu dodeljene konkretne vrednosti
+     */
     public Grad() {
     }
 
+    /**
+     * Postavlja naziv na unetu vrednost
+     * 
+     * @param naziv naziv grada
+     */
     public Grad(String naziv) {
         this.naziv = naziv;
     }    
     
+    /**
+     * Postavlja id i naziv na unetu vrednost
+     * 
+     * @param id id grada
+     * @param naziv naziv grada
+     */
     public Grad(long id, String naziv) {
         this.id = id;
         this.naziv = naziv;

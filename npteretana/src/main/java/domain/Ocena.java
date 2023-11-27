@@ -31,6 +31,9 @@ public class Ocena implements Serializable {
      */
     private int vrednost;
 
+    /**
+     * Kreira objekat ocena kojem nisu dodeljene konkretne vrednosti
+     */
     public Ocena() {
     }
 
@@ -41,6 +44,13 @@ public class Ocena implements Serializable {
 //        this.vrednost = vrednost;
 //    }   
     
+    /**
+     * Postavlja nalog, teretanu i vrednost na unete vrednosti
+     * 
+     * @param nalog nalog koji daje ocenu teretani
+     * @param teretana teretana koja se ocenjuje
+     * @param vrednost vrednost ocene
+     */
     public Ocena(Nalog nalog, Teretana teretana, int vrednost) {
         this.nalog = nalog;
         this.teretana = teretana;

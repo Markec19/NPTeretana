@@ -26,14 +26,28 @@ public class VrstaOpreme implements Serializable{
      */
     private String vrsta;
 
+    /**
+     * Kreira objekat VrstaOpreme kojem nisu dodeljene konkretne vrednosti
+     */
     public VrstaOpreme() {
     }
 
+    /**
+     * Postavlja id i vrstu na unete vrednosti
+     * 
+     * @param id id vrste opreme
+     * @param vrsta vrsta opreme
+     */
     public VrstaOpreme(long id, String vrsta) {
         this.id = id;
         this.vrsta = vrsta;
     }
 
+    /**
+     * Postavlja vrstu na unetu vrednost
+     * 
+     * @param vrsta vrsta opreme
+     */
     public VrstaOpreme(String vrsta) {
         this.vrsta = vrsta;
     }

@@ -32,6 +32,9 @@ public class IndividualniTrening implements Serializable{
      */
     private LocalDate termin;
 
+    /**
+     * Kreira objekat IndividualniTrening kojem nisu dodeljene konkretne vrednosti
+     */
     public IndividualniTrening() {
     }
 
@@ -42,6 +45,13 @@ public class IndividualniTrening implements Serializable{
 //        this.termin = termin;
 //    }   
     
+    /**
+     * Postavlja nalog, trenera i termin na unete vrednosti
+     * 
+     * @param nalog nalog korisnika koji zakazuje individualni trening
+     * @param trener trener kod kog je zakazan individualni trening
+     * @param termin termin individualnog treninga
+     */
     public IndividualniTrening(Nalog nalog, Trener trener, LocalDate termin) {
         this.nalog = nalog;
         this.trener = trener;

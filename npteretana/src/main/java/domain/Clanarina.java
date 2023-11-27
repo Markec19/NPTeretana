@@ -51,9 +51,22 @@ public class Clanarina implements Serializable{
      */
     private LocalDate datumDo;
 
+    /**
+     * Kreira objekat clanarina kojem nisu dodeljene konkretne vrednosti
+     */
     public Clanarina() {
     }
 
+    /**
+	 * Postavlja id, cenu, nalog, teretanu, datum od i datum do na unete vrednosti
+	 * 
+	 * @param id id clanarine
+	 * @param cena cena clanarine
+	 * @param nalog nalog povezan sa clanarinom
+	 * @param teretana teretana u kojoj vazi clanarina
+	 * @param datumOd datum od kad vazi clanarina
+	 * @param datumDo datum do kad vazi clanarina
+	 */
     public Clanarina(long id, BigDecimal cena, Nalog nalog, Teretana teretana, LocalDate datumOd, LocalDate datumDo) {
         this.id = id;
         this.cena = cena;
@@ -63,6 +76,15 @@ public class Clanarina implements Serializable{
         this.datumDo = datumDo;
     }
 
+    /**
+     * Postavlja cenu, nalog, teretanu, datum od i datum do na unete vrednosti
+     * 
+     * @param cena cena clanarine
+	 * @param nalog nalog povezan sa clanarinom
+	 * @param teretana teretana u kojoj vazi clanarina
+	 * @param datumOd datum od kad vazi clanarina
+	 * @param datumDo datum do kad vazi clanarina
+     */
     public Clanarina(BigDecimal cena, Nalog nalog, Teretana teretana, LocalDate datumOd, LocalDate datumDo) {
         this.cena = cena;
         this.nalog = nalog;

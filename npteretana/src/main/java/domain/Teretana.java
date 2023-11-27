@@ -55,9 +55,23 @@ public class Teretana implements Serializable {
      */
     private List<Trener> treneri;
 
+    /**
+     * Kreira objekat teretana kojem nisu dodeljene konkretne vrednosti 
+     */
     public Teretana() {
     }
 
+    /**
+     * Postavlja id, naziv, adresu, prosecnu ocenu, grad, opremu i trenere na unete vrednosti
+     * 
+     * @param id id teretane
+     * @param naziv naziv teretane
+     * @param adresa adresa teretane
+     * @param prosecnaOcena prosecna ocena teretane
+     * @param grad grad u kom se teretana nalazi
+     * @param opreme lista oprema u teretani
+     * @param treneri lista trenera u teretani 
+     */
     public Teretana(long id, String naziv, String adresa, BigDecimal prosecnaOcena, Grad grad, List<Oprema> opreme, List<Trener> treneri) {
         this.id = id;
         this.naziv = naziv;
@@ -68,6 +82,15 @@ public class Teretana implements Serializable {
         this.treneri = treneri;
     }    
     
+    /**
+     * Postavlja id, naziv, adresu, prosecnu ocenu i grad na unete vrednosti
+     * 
+     * @param id id teretane
+     * @param naziv naziv teretane
+     * @param adresa adresa teretane
+     * @param prosecnaOcena prosecna ocena teretane
+     * @param grad grad u kom se teretana nalazi
+     */
     public Teretana(long id, String naziv, String adresa, BigDecimal prosecnaOcena, Grad grad) {
         this.id = id;
         this.naziv = naziv;
@@ -77,6 +100,14 @@ public class Teretana implements Serializable {
         this.opreme = new ArrayList<>();
     }
 
+    /**
+     * Postavlja naziv, adresu, prosecnu ocenu i grad na unete vrednosti
+     * 
+     * @param naziv naziv teretane
+     * @param adresa adresa teretane
+     * @param prosecnaOcena prosecna ocena teretane
+     * @param grad grad u kom se teretana nalazi
+     */
     public Teretana(String naziv, String adresa, BigDecimal prosecnaOcena, Grad grad) {
         this.naziv = naziv;
         this.adresa = adresa;
@@ -85,6 +116,14 @@ public class Teretana implements Serializable {
         this.opreme = new ArrayList<>();
     }
 
+    /**
+     * Postavlja id, naziv, adresu i grad na unete vrednosti
+     * 
+     * @param id id teretane
+     * @param naziv naziv teretane
+     * @param adresa adresa teretane
+     * @param grad grad u kom se teretana nalazi
+     */
     public Teretana(long id, String naziv, String adresa, Grad grad) {
         this.id = id;
         this.naziv = naziv;
@@ -92,6 +131,13 @@ public class Teretana implements Serializable {
         this.grad = grad;
     }    
     
+    /**
+     * Postavlja naziv, adresu i grad na unete vrednosti
+     * 
+     * @param naziv naziv teretane
+     * @param adresa adresa teretane
+     * @param grad grad u kom se teretana nalazi
+     */
     public Teretana(String naziv, String adresa, Grad grad) {
         this.naziv = naziv;
         this.adresa = adresa;

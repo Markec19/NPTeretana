@@ -37,9 +37,20 @@ public class Oprema implements Serializable{
      */
     private Teretana teretana;
 
+    /**
+     * Kreira objekat oprema kojem nisu dodeljene konkretne vrednosti
+     */
     public Oprema() {
     }
 
+    /**
+     * Postavlja id, stanje opreme, vrstu i teretanu na unete vrednosti
+     * 
+     * @param id id opreme
+     * @param stanjeOpreme stanje opreme
+     * @param vrsta vrsta opreme
+     * @param teretana teretana u kojoj se oprema nalazi
+     */
     public Oprema(long id, String stanjeOpreme, VrstaOpreme vrsta, Teretana teretana) {
         this.id = id;
         //this.kolicina = kolicina;
@@ -47,7 +58,14 @@ public class Oprema implements Serializable{
         this.vrsta = vrsta;
         this.teretana = teretana;
     }
-
+    
+    /**
+     * Postavlja stanje opreme, vrstu i teretanu na unete vrednosti
+     * 
+     * @param stanjeOpreme stanje opreme
+     * @param vrsta vrsta opreme
+     * @param teretana teretana u kojoj se oprema nalazi
+     */
     public Oprema(String stanjeOpreme, VrstaOpreme vrsta, Teretana teretana) {
         //this.kolicina = kolicina;
         this.stanjeOpreme = stanjeOpreme;
