@@ -16,6 +16,7 @@ import domain.VrstaOpreme;
 
 import java.io.FileWriter;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import db.DbBroker;
 import db.DbConnectionFactory;
 
 /**
@@ -35,8 +37,8 @@ public class Controller {
     /**
      * Instanca klase DbConnectionFactory
      */
-    private final DbConnectionFactory dbCon;
-
+    private static DbBroker dbCon;
+    
     /**
      * Instanca Controller 
      */
@@ -47,11 +49,9 @@ public class Controller {
      * Pocetna vrednost je false
      */
     boolean sacuvan = false;
-
-    private Controller() {
-        this.dbCon = new DbConnectionFactory();
-    }
-
+    
+    private boolean test = false;
+    
     /**
      * Vraca instancu Controller-a
      * 
@@ -61,10 +61,11 @@ public class Controller {
         if (controller == null) {
             controller = new Controller();
         }
+        dbCon = new DbBroker();
         return controller;
     }
     
-    public DbConnectionFactory getDbCon() {
+    public DbBroker getDbCon() {
 		return dbCon;
 	}
 
@@ -730,5 +731,12 @@ public class Controller {
 		}
 		
 		return sacuvan;
+	}
+	
+	public void commit() throws SQLException, Exception {
+		if(test == true)
+			DbConnectionFactory.getInstance().getConnection().rollback();
+		else
+			DbConnectionFactory.getInstance().getConnection().commit();
 	}
 }

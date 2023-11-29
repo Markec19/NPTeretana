@@ -37,7 +37,8 @@ class ControllerTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		c = Controller.getInstance();
-		c.getDbCon().getConnection();		
+		c.getDbCon().getConn().setSufiks("_test");
+		c.getDbCon().getConn().getConnection();
 	}
 
 	/**
@@ -45,7 +46,7 @@ class ControllerTest {
 	 */
 	@AfterEach
 	void tearDown() throws Exception {
-		c.getDbCon().closeConnection();
+		c.getDbCon().getConn().closeConnection();;
 		c = null;
 	}
 
@@ -73,6 +74,8 @@ class ControllerTest {
 	 */
 	@Test
 	void testVratiSveNaloge() throws Exception {
+		
+		
 		assertTrue(c.vratiSveNaloge().size() > 0);
 	}
 
@@ -92,7 +95,7 @@ class ControllerTest {
 		n.setKorisnickoIme("test111");
 		
 		assertEquals(true, c.sacuvajNalog(n));
-		c.getDbCon().getConnection().rollback();
+		//c.getDbCon().getConn().getConnection().rollback();
 	}
 
 	/**
@@ -108,7 +111,7 @@ class ControllerTest {
 		n.setPrezime("Test");
 		
 		assertEquals(true, c.zapamtiNalog(n));
-		c.getDbCon().getConnection().rollback();
+		//c.getDbCon().getConnection().rollback();
 	}
 
 	/**
