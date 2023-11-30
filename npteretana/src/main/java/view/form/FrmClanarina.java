@@ -331,7 +331,7 @@ public class FrmClanarina extends javax.swing.JFrame {
             try {
                 c.setCena(cena);
                 sacuvajClanarinu(c);
-                azurirajNalogFormu(c.getNalog());
+                //azurirajNalogFormu(c.getNalog());
                 
                 JOptionPane.showMessageDialog(this, "Sistem je sačuvao članarinu");
                 JOptionPane.showMessageDialog(this, "Članarina je produžena do " + c.getDatumDo());

@@ -119,6 +119,4 @@ public class VrstaOpreme implements Serializable{
     public String toString() {
         return vrsta;
     }
-    
-    
 }

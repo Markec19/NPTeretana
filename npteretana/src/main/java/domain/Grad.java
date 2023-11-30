@@ -119,8 +119,4 @@ public class Grad implements Serializable {
     public String toString() {
         return naziv;
     }
-
-    
-    
-    
 }

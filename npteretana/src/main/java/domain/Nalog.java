@@ -15,7 +15,6 @@ import java.util.Objects;
  * @author Luka
  */
 public class Nalog implements Serializable{
-
 	
     /**
      * Id naloga kao long
@@ -230,6 +229,4 @@ public class Nalog implements Serializable{
     public String toString() {
         return "ime=" + ime + ", prezime=" + prezime + ", korisnicko ime=" + korisnickoIme;
     }   
-    
-    
 }

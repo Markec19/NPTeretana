@@ -248,8 +248,5 @@ public class Clanarina implements Serializable{
             return false;
         }
         return Objects.equals(this.datumDo, other.datumDo);
-    }
-    
-    
-    
+    }    
 }

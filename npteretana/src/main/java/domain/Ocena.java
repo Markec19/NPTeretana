@@ -149,8 +149,4 @@ public class Ocena implements Serializable {
         }
         return Objects.equals(this.teretana, other.teretana);
     }
-
-
-
-    
 }
