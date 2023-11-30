@@ -151,7 +151,4 @@ public class IndividualniTrening implements Serializable{
     public String toString() {
         return "nalog=" + nalog.getKorisnickoIme() + ", trener=" + trener + ", termin=" + termin;
     }  
-    
-    
-    
 }

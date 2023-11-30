@@ -43,7 +43,6 @@ public class DbBroker {
         Connection conn = DbConnectionFactory.getInstance().getConnection();
         PreparedStatement ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);        
         
-        //PreparedStatement ps = connection.prepareStatement(query);
         ps.setString(1, n.getIme());
         ps.setString(2, n.getPrezime());        
         ps.setString(3, n.getSifra());
@@ -81,7 +80,7 @@ public class DbBroker {
             statement.close();
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new Exception("Update product DB error: \n" + ex.getMessage());
+            throw new Exception("Update nalog DB error: \n" + ex.getMessage());
         }
     }
     
@@ -96,8 +95,6 @@ public class DbBroker {
             String query = "SELECT * FROM nalog";
             
             List<Nalog> list = new ArrayList<>();
-            //Connection conn = DbConnectionFactory.getInstance().getConnection();
-            //Statement stat = conn.createStatement();
             Connection connection = DbConnectionFactory.getInstance().getConnection();
             Statement stat = connection.createStatement();
             ResultSet rs = stat.executeQuery(query);
@@ -112,12 +109,10 @@ public class DbBroker {
                 list.add(n);
             }            
             rs.close();
-            stat.close();            
-            //conn.close();
+            stat.close();     
             
             System.out.println("ResultSet zatvoren: " + rs.isClosed());
             System.out.println("Statement zatvoren: " + stat.isClosed());
-            //System.out.println("Konekcija zatvorena: " + conn.isClosed());
             return list;
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -381,10 +376,11 @@ public class DbBroker {
                 + "stanje='"+ o.getStanjeOpreme() + "' "
                 + "WHERE id=" + o.getId();
             System.out.println(query);
+            
             Connection connection = DbConnectionFactory.getInstance().getConnection();
-            Statement stat = connection.createStatement();
-            stat.executeQuery(query);
-            stat.close();
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
+            statement.close();
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("Update oprema error: \n" + ex.getMessage());
@@ -512,6 +508,7 @@ public class DbBroker {
                 g.setNaziv(rs.getString("g.naziv_grada"));
                 
                 t.setGrad(g);
+                o.setTeretana(t);
                                 
                 list.add(o);
             }            

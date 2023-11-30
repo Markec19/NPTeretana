@@ -68,6 +68,10 @@ public class Controller {
     public DbBroker getDbCon() {
 		return dbCon;
 	}
+    
+    public void setTest(boolean t) {
+    	test = t;
+    }
 
 	/**
      * Vrsi login korisnika u aplikaciju
@@ -118,7 +122,7 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
+            throw new Exception("Neuspesno cuvanje izmena naloga!");
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
@@ -145,7 +149,7 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
+            throw new Exception("Neuspesno cuvanje naloga!");
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
@@ -198,7 +202,7 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
+            throw new Exception("Neuspesno cuvanje teretane!");
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
@@ -216,6 +220,8 @@ public class Controller {
      * @throws Exception 
      */
     public List<Teretana> nadjiTeretane(Grad grad) throws Exception {
+    	if(grad == null)
+    		throw new Exception("Grad je null!");
         List<Teretana> list = new ArrayList<>();
         DbConnectionFactory.getInstance().getConnection();
         try{
@@ -224,7 +230,7 @@ public class Controller {
         }catch (Exception e){
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
+            throw new Exception("Neuspesna pretraga teretana!");
         }finally{
             DbConnectionFactory.getInstance().getConnection().close();
         }
@@ -238,6 +244,9 @@ public class Controller {
      * @throws Exception 
      */
     public Teretana ucitajTeretanu(Teretana teretana) throws Exception{
+    	if(teretana == null)
+    		throw new Exception("Teretana je null!");
+    	
         Teretana t = new Teretana();
         t.setId(0);
         
@@ -248,7 +257,7 @@ public class Controller {
         }catch (Exception e){
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
+            throw new Exception("Neuspesno ucitavanje teretane!");
         }finally{
             DbConnectionFactory.getInstance().getConnection().close();
         }
@@ -275,6 +284,8 @@ public class Controller {
      * @throws Exception 
      */
     public List<Clanarina> vratiSveClanarine(Nalog n) throws Exception{
+    	if(n == null)
+    		throw new Exception("Nalog ne sme biti null!");
         return dbCon.vratiSveClanarine(n);
     }
     
@@ -298,7 +309,7 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
+            throw new Exception("Izmena clanarine se ne moze sacuvati!");
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
@@ -316,7 +327,7 @@ public class Controller {
 	 * </ul>
      * @throws Exception
      */
-    public boolean zapamtiClanarinu(Clanarina c) throws Exception {
+    public boolean zapamtiClanarinu(Clanarina c) throws Exception {    	
         DbConnectionFactory.getInstance().getConnection();
         boolean sacuvan = false;
         try {
@@ -326,7 +337,7 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
+            throw new Exception("Clanarina se ne moze sacuvati!");
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
@@ -392,7 +403,7 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
+            throw new Exception("Izmena ocene se ne moze sacuvati!");
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
@@ -420,7 +431,7 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
+            throw new Exception("Ocena se ne moze sacuvati!");
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
@@ -459,7 +470,7 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
+            throw new Exception("Oprema se ne moze sacuvati!");
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
@@ -478,6 +489,8 @@ public class Controller {
      * @throws Exception
      */
     public boolean urediOpremu(Oprema o) throws Exception {
+    	if(o == null)
+    		throw new Exception("Oprema ne sme biti null!"); 
         DbConnectionFactory.getInstance().getConnection();
         boolean sacuvan = false;
         try {
@@ -487,7 +500,7 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
+            throw new Exception("Izmena opreme se ne moze sacuvati!");
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
@@ -502,6 +515,8 @@ public class Controller {
      * @throws Exception 
      */
     public List<Oprema> nadjiOpreme(Teretana t) throws Exception {
+    	if(t == null)
+    		throw new Exception("Teretana ne sme biti null");
         List<Oprema> list = new ArrayList<>();
         DbConnectionFactory.getInstance().getConnection();
         try{
@@ -525,6 +540,8 @@ public class Controller {
      * @throws Exception 
      */
     public List<Oprema> nadjiOpreme(VrstaOpreme vo) throws Exception {
+    	if(vo == null)
+    		throw new Exception("Vrsta opreme ne sme biti null");
         List<Oprema> list = new ArrayList<>();
         DbConnectionFactory.getInstance().getConnection();
         try{
@@ -572,7 +589,7 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
+            throw new Exception("Trener se ne moze sacuvati!");
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
@@ -595,6 +612,9 @@ public class Controller {
      * @throws Exception
      */
     public boolean urediTrenera(Trener t) throws Exception {
+    	if(t == null)
+    		throw new Exception("Trener ne sme biti null!");
+    	
         DbConnectionFactory.getInstance().getConnection();
         boolean sacuvan = false;
         try {
@@ -604,7 +624,7 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
+            throw new Exception("Neuspesno cuvanje izmene trenera!");
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
@@ -619,6 +639,9 @@ public class Controller {
      * @throws Exception 
      */
     public List<Trener> nadjiTrenere(Teretana teretana) throws Exception {
+    	if(teretana == null)
+    		throw new Exception("Teretana ne sme biti null!");
+    		
         List<Trener> list = new ArrayList<>();
         DbConnectionFactory.getInstance().getConnection();
         try{
@@ -656,7 +679,7 @@ public class Controller {
         } catch (Exception e) {
             e.printStackTrace();
             DbConnectionFactory.getInstance().getConnection().rollback();
-            throw e;
+            throw new Exception("Individualni trening se ne moze sacuvati!");
         } finally {
             DbConnectionFactory.getInstance().getConnection().close();
         }
@@ -671,6 +694,8 @@ public class Controller {
     * @throws Exception 
     */
     public List<IndividualniTrening> vratiSveIndividualneTreninge(Trener t) throws Exception{
+    	if(t == null)
+    		throw new Exception("Trener ne sme biti null!");
         return dbCon.vratiSveIndividualneTreninge(t);
     }
     
@@ -682,6 +707,8 @@ public class Controller {
      * @throws Exception 
      */
     public List<IndividualniTrening> vratiSveIndividualneTreninge(Nalog n) throws Exception{
+    	if(n == null)
+    		throw new Exception("Nalog ne sme biti null!");
     	return dbCon.vratiSveIndividualneTreninge(n);
     }
     
@@ -731,12 +758,5 @@ public class Controller {
 		}
 		
 		return sacuvan;
-	}
-	
-	public void commit() throws SQLException, Exception {
-		if(test == true)
-			DbConnectionFactory.getInstance().getConnection().rollback();
-		else
-			DbConnectionFactory.getInstance().getConnection().commit();
-	}
+	}	
 }
